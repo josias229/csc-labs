@@ -70,6 +70,14 @@
             .horizontal-track { display: flex; flex-wrap: nowrap; width: 500vw; } /* 5 panels in total */
             .panel { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; overflow: hidden; }
         }
+        
+        /* Dynamic Scrolled Header on Dark Panels */
+        header.header-on-dark.scrolled { background: rgba(8, 11, 26, 0.8) !important; border-bottom-color: rgba(255, 255, 255, 0.08) !important; }
+        header.header-on-dark.scrolled .logo .logo-scrolled { display: none !important; }
+        header.header-on-dark.scrolled .logo .logo-default { display: block !important; }
+        header.header-on-dark.scrolled .nav-links a { color: rgba(255, 255, 255, 0.8) !important; }
+        header.header-on-dark.scrolled .nav-links a:hover { color: #006ef2 !important; }
+        header.header-on-dark.scrolled .btn-ghost { background: rgba(255, 255, 255, 0.1) !important; color: #ffffff !important; border-color: rgba(255, 255, 255, 0.2) !important; }
     </style>
 </head>
 <body class="selection:bg-primary selection:text-white">
@@ -137,7 +145,7 @@
         </section>
 
         <!-- IMMERSIVE HORIZONTAL STORYTELLING: PROCESSUS D'IMMERSION (Desktop) -->
-        <section class="horizontal-container hidden lg:block bg-surface relative">
+        <section id="processus" class="horizontal-container hidden lg:block bg-surface relative">
             <div class="horizontal-track">
                 
                 <!-- PANEL 1: CINEMATIC INTRO -->
@@ -172,7 +180,7 @@
                             <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Attribution d'une stack technique de pointe</li>
                         </ul>
                     </div>
-                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                    <div class="w-1/2 panel-image relative h-[50vh] min-h-[350px] max-h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
                         <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1000&q=80" alt="Rejoindre Guilde" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                         <div class="absolute bottom-8 left-8 text-white">
@@ -184,7 +192,7 @@
 
                 <!-- PANEL 3: STEP 2 (Image Left, Text Right) -->
                 <div class="panel bg-[#f4f8fe] flex items-center justify-between px-24 gap-20 relative">
-                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                    <div class="w-1/2 panel-image relative h-[50vh] min-h-[350px] max-h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
                         <img src="https://images.unsplash.com/photo-1531498860502-2c67f99cb5ce?auto=format&fit=crop&w=1000&q=80" alt="Build Weeks" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                         <div class="absolute bottom-8 left-8 text-white">
@@ -214,7 +222,7 @@
                             <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Preuve de compétences directement vérifiable</li>
                         </ul>
                     </div>
-                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                    <div class="w-1/2 panel-image relative h-[50vh] min-h-[350px] max-h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" alt="Portfolio" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                         <div class="absolute bottom-8 left-8 text-white">
@@ -226,7 +234,7 @@
 
                 <!-- PANEL 5: STEP 4 (Image Left, Text Right) -->
                 <div class="panel bg-[#f4f8fe] flex items-center justify-between px-24 gap-20 relative">
-                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                    <div class="w-1/2 panel-image relative h-[50vh] min-h-[350px] max-h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
                         <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=80" alt="Placement" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                         <div class="absolute bottom-8 left-8 text-white">
@@ -397,8 +405,25 @@
                     pin: true,
                     scrub: 1,
                     start: "top top",
-                    end: () => "+=" + track.offsetWidth,
+                    end: () => "+=" + (track.scrollWidth - window.innerWidth),
                     invalidateOnRefresh: true
+                }
+            });
+            
+            // Dynamic Header Color Transition
+            ScrollTrigger.create({
+                trigger: ".horizontal-container",
+                start: "top top",
+                end: () => "+=" + (track.scrollWidth - window.innerWidth),
+                onUpdate: self => {
+                    const x = -gsap.getProperty(track, "x");
+                    const width = window.innerWidth;
+                    // If we are on Panel 1 (dark background), set dark header style
+                    if (x < width * 0.7) {
+                        header.classList.add('header-on-dark');
+                    } else {
+                        header.classList.remove('header-on-dark');
+                    }
                 }
             });
             
@@ -467,6 +492,11 @@
             } else {
                 header.classList.remove('scrolled');
             }
+        });
+        
+        // Refresh ScrollTrigger after all elements (fonts, images) load fully
+        window.addEventListener('load', () => {
+            ScrollTrigger.refresh();
         });
     </script>
 </body>
