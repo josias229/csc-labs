@@ -64,23 +64,11 @@
         header.scrolled .btn-ghost:hover { background: rgba(0, 110, 242, 0.15); }
         @media (max-width: 768px) { .nav-links { display: none; } }
         
-        /* Sticky Magic for Processus Section */
-        .sticky-container { position: sticky; top: calc(50vh - 250px); align-self: start; height: 500px; border-radius: 1.5rem; overflow: hidden; }
-        .step-image { opacity: 0; transform: scale(1.05) translateY(20px); transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); z-index: 1; }
-        .step-image.active { opacity: 1; transform: scale(1) translateY(0); z-index: 10; }
-        .step-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.23, 1, 0.32, 1); transform: scale(1.05); }
-        .step-image.active img { transform: scale(1); }
-        
-        /* Mobile: default fully active style for steps */
-        .step-number { background-color: #006ef2; color: #FFFFFF; transition: all 0.4s ease; }
-        .step-text { opacity: 1; transition: all 0.4s ease; }
-        
-        /* Desktop: storytelling active state styles */
+        /* IMMERSIVE HORIZONTAL STORYTELLING TIMELINE */
         @media (min-width: 1024px) {
-            .step-text { opacity: 0.3; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1), transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
-            .step-text.active { opacity: 1; transform: translateX(15px); }
-            .step-number { background-color: rgba(0, 110, 242, 0.08); color: #006ef2; }
-            .step-text.active .step-number { background-color: #006ef2; color: #FFFFFF; transform: scale(1.1); }
+            .horizontal-container { overflow: hidden; width: 100%; position: relative; }
+            .horizontal-track { display: flex; flex-wrap: nowrap; width: 500vw; } /* 5 panels in total */
+            .panel { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; overflow: hidden; }
         }
     </style>
 </head>
@@ -148,82 +136,163 @@
             </div>
         </section>
 
-        <!-- SCROLL STORYTELLING : PROCESSUS D'IMMERSION (Clean Typo version) -->
-        <section id="processus" class="bg-surface py-24 relative">
-            <div class="container mx-auto px-6 max-w-7xl">
-                <div class="text-center max-w-2xl mx-auto mb-16">
-                    <span class="text-primary font-bold text-sm uppercase tracking-widest mb-4 block">Processus d'Immersion</span>
-                    <h2 class="text-3xl md:text-4xl font-black text-text-main mb-4">Comment ça fonctionne ?</h2>
-                    <p class="text-text-muted text-lg">Une pédagogie chirurgicale conçue pour simuler les contraintes de production en entreprise.</p>
-                </div>
-
-                <div class="grid lg:grid-cols-2 gap-16 relative">
-                    <!-- Left Column: Sticky Images -->
-                    <div class="hidden lg:block relative h-[500px] sticky-container">
-                        <!-- Image 1 -->
-                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-1">
-                            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80" alt="Rejoindre Guilde" class="w-full h-full object-cover">
-                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
-                                <h3 class="text-text-main font-bold text-xl">L'Intégration</h3>
-                            </div>
-                        </div>
-                        <!-- Image 2 -->
-                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-2">
-                            <img src="https://images.unsplash.com/photo-1531498860502-2c67f99cb5ce?auto=format&fit=crop&w=800&q=80" alt="Build Weeks" class="w-full h-full object-cover">
-                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
-                                <h3 class="text-text-main font-bold text-xl">Le Feu de l'Action</h3>
-                            </div>
-                        </div>
-                        <!-- Image 3 -->
-                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-3">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Portfolio" class="w-full h-full object-cover">
-                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
-                                <h3 class="text-text-main font-bold text-xl">La Preuve par le Produit</h3>
-                            </div>
-                        </div>
-                        <!-- Image 4 -->
-                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-4">
-                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Placement" class="w-full h-full object-cover">
-                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
-                                <h3 class="text-text-main font-bold text-xl">L'Envol</h3>
-                            </div>
+        <!-- IMMERSIVE HORIZONTAL STORYTELLING: PROCESSUS D'IMMERSION (Desktop) -->
+        <section class="horizontal-container hidden lg:block bg-surface relative">
+            <div class="horizontal-track">
+                
+                <!-- PANEL 1: CINEMATIC INTRO -->
+                <div class="panel bg-[#080b1a] text-white flex flex-col justify-center items-center text-center px-12 relative overflow-hidden">
+                    <!-- Background ambient aura -->
+                    <div class="absolute w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] -top-40 -left-40 pointer-events-none"></div>
+                    <div class="absolute w-[600px] h-[600px] bg-[#006ef2]/10 rounded-full blur-[150px] -bottom-40 -right-40 pointer-events-none"></div>
+                    
+                    <div class="relative z-10 max-w-4xl">
+                        <span class="text-primary font-bold text-sm uppercase tracking-widest mb-6 block transform -translate-y-4">Processus d'Immersion</span>
+                        <h2 class="text-5xl lg:text-7xl font-black mb-8 leading-tight tracking-tight">Comment ça <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#4c70b6]">fonctionne ?</span></h2>
+                        <p class="text-gray-400 text-xl leading-relaxed max-w-2xl mx-auto mb-12">Découvrez les 4 étapes de notre pédagogie chirurgicale conçue pour simuler les contraintes de production en entreprise.</p>
+                        
+                        <div class="flex items-center justify-center gap-4 text-sm font-semibold text-gray-400 animate-bounce">
+                            <span>Faites défiler vers le bas</span>
+                            <i class="fa-solid fa-arrow-right"></i>
                         </div>
                     </div>
+                    
+                    <!-- Tech outline text background -->
+                    <div class="absolute bottom-10 left-10 font-montserrat text-[10vw] font-black text-white/[0.02] tracking-wider uppercase select-none pointer-events-none">CSC METHOD</div>
+                </div>
 
-                    <!-- Right Column: Scrolling Text content -->
-                    <div class="space-y-[30vh] lg:space-y-[40vh] pb-[20vh] relative z-10" id="steps-container">
-                        <!-- Step 1 -->
-                        <div class="step-text active" data-step="1">
-                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">1</div>
-                            <h3 class="text-2xl font-bold mb-4 text-text-main">Rejoindre une Guilde</h3>
-                            <p class="text-text-muted leading-relaxed mb-4">Intégrez immédiatement votre pôle de spécialisation : Ingénierie Logicielle, Design UI/UX ou Data & IA. Vous êtes entouré de pairs et encadré par des mentors.</p>
-                            <ul class="space-y-3 text-sm font-semibold text-text-main">
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Évaluation initiale de niveau</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Attribution d'une stack technique</li>
-                            </ul>
+                <!-- PANEL 2: STEP 1 (Text Left, Image Right) -->
+                <div class="panel bg-white flex items-center justify-between px-24 gap-20 relative">
+                    <div class="w-1/2 panel-card flex flex-col justify-center">
+                        <span class="text-primary font-bold text-[8vw] leading-none opacity-10 font-montserrat mb-4">01</span>
+                        <h3 class="text-4xl font-black text-[#011031] mb-6">Rejoindre une Guilde</h3>
+                        <p class="text-[#4c4f5f] text-lg leading-relaxed mb-8">Intégrez immédiatement votre pôle de spécialisation : Ingénierie Logicielle, Design UI/UX ou Data & IA. Vous êtes entouré de pairs et encadré par des mentors.</p>
+                        <ul class="space-y-4 text-base font-bold text-[#011031]">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Évaluation initiale de niveau</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Attribution d'une stack technique de pointe</li>
+                        </ul>
+                    </div>
+                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1000&q=80" alt="Rejoindre Guilde" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-8 left-8 text-white">
+                            <h4 class="text-2xl font-bold">L'Intégration</h4>
+                            <p class="text-white/80 text-sm">Étape 1 : Immersion académique</p>
                         </div>
-                        <!-- Step 2 -->
-                        <div class="step-text" data-step="2">
-                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">2</div>
-                            <h3 class="text-2xl font-bold mb-4 text-text-main">Les Build Weeks</h3>
-                            <p class="text-text-muted leading-relaxed mb-4">Des sessions intensives où vous affrontez des briefs fournis par de vraies entreprises. Livrez un prototype fonctionnel en équipe pluridisciplinaire (un Dev, un Designer, un PM).</p>
-                            <ul class="space-y-3 text-sm font-semibold text-text-main">
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Méthodologie Scrum / Agile</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Pression des livrables réels</li>
-                            </ul>
+                    </div>
+                </div>
+
+                <!-- PANEL 3: STEP 2 (Image Left, Text Right) -->
+                <div class="panel bg-[#f4f8fe] flex items-center justify-between px-24 gap-20 relative">
+                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1531498860502-2c67f99cb5ce?auto=format&fit=crop&w=1000&q=80" alt="Build Weeks" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-8 left-8 text-white">
+                            <h4 class="text-2xl font-bold">Le Feu de l'Action</h4>
+                            <p class="text-white/80 text-sm">Étape 2 : Livraison de sprint</p>
                         </div>
-                        <!-- Step 3 -->
-                        <div class="step-text" data-step="3">
-                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">3</div>
-                            <h3 class="text-2xl font-bold mb-4 text-text-main">Validation du Portfolio</h3>
-                            <p class="text-text-muted leading-relaxed mb-4">Chaque ligne de code poussée sur GitHub, chaque maquette validée alimente votre portfolio public sur la plateforme. C'est votre nouveau CV incontestable pour les recruteurs.</p>
+                    </div>
+                    <div class="w-1/2 panel-card flex flex-col justify-center">
+                        <span class="text-primary font-bold text-[8vw] leading-none opacity-10 font-montserrat mb-4">02</span>
+                        <h3 class="text-4xl font-black text-[#011031] mb-6">Les Build Weeks</h3>
+                        <p class="text-[#4c4f5f] text-lg leading-relaxed mb-8">Des sessions intensives où vous affrontez des briefs fournis par de vraies entreprises. Livrez un prototype fonctionnel en équipe pluridisciplinaire (un Dev, un Designer, un PM).</p>
+                        <ul class="space-y-4 text-base font-bold text-[#011031]">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Méthodologie Scrum & Sprints quotidiens</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Pression saine des livrables en production</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- PANEL 4: STEP 3 (Text Left, Image Right) -->
+                <div class="panel bg-white flex items-center justify-between px-24 gap-20 relative">
+                    <div class="w-1/2 panel-card flex flex-col justify-center">
+                        <span class="text-primary font-bold text-[8vw] leading-none opacity-10 font-montserrat mb-4">03</span>
+                        <h3 class="text-4xl font-black text-[#011031] mb-6">Validation du Portfolio</h3>
+                        <p class="text-[#4c4f5f] text-lg leading-relaxed mb-8">Chaque ligne de code poussée sur GitHub, chaque maquette validée alimente votre portfolio public sur la plateforme. C'est votre nouveau CV incontestable pour les recruteurs.</p>
+                        <ul class="space-y-4 text-base font-bold text-[#011031]">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Projets réels certifiés par la plateforme</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Preuve de compétences directement vérifiable</li>
+                        </ul>
+                    </div>
+                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" alt="Portfolio" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-8 left-8 text-white">
+                            <h4 class="text-2xl font-bold">La Preuve par le Produit</h4>
+                            <p class="text-white/80 text-sm">Étape 3 : Certification</p>
                         </div>
-                        <!-- Step 4 -->
-                        <div class="step-text" data-step="4">
-                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">4</div>
-                            <h3 class="text-2xl font-bold mb-4 text-text-main">Placement B2B</h3>
-                            <p class="text-text-muted leading-relaxed mb-4">Les entreprises partenaires ont accès au vivier. Elles vous observent et vous recrutent directement en stage, CDI ou freelance sur la base de vos réalisations vérifiables.</p>
+                    </div>
+                </div>
+
+                <!-- PANEL 5: STEP 4 (Image Left, Text Right) -->
+                <div class="panel bg-[#f4f8fe] flex items-center justify-between px-24 gap-20 relative">
+                    <div class="w-1/2 panel-image relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=80" alt="Placement" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-8 left-8 text-white">
+                            <h4 class="text-2xl font-bold">L'Envol</h4>
+                            <p class="text-white/80 text-sm">Étape 4 : Décollage professionnel</p>
                         </div>
+                    </div>
+                    <div class="w-1/2 panel-card flex flex-col justify-center">
+                        <span class="text-primary font-bold text-[8vw] leading-none opacity-10 font-montserrat mb-4">04</span>
+                        <h3 class="text-4xl font-black text-[#011031] mb-6">Placement B2B</h3>
+                        <p class="text-[#4c4f5f] text-lg leading-relaxed mb-8">Les entreprises partenaires ont accès au vivier de talents de CSC Labs. Elles vous observent en cours de projet et vous recrutent directement en stage, CDI ou freelance.</p>
+                        <ul class="space-y-4 text-base font-bold text-[#011031]">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Accès prioritaire au réseau B2B</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-primary text-xl"></i> Recrutement basé sur la performance</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- IMMERSIVE PROCESSUS D'IMMERSION (Mobile Fallback) -->
+        <section id="processus-mobile" class="block lg:hidden bg-surface py-20 relative">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-primary font-bold text-sm uppercase tracking-widest mb-4 block">Processus d'Immersion</span>
+                    <h2 class="text-3xl font-black text-[#011031] mb-4">Comment ça fonctionne ?</h2>
+                    <p class="text-[#4c4f5f] text-base">Une pédagogie chirurgicale conçue pour simuler les contraintes de production en entreprise.</p>
+                </div>
+                
+                <div class="space-y-12">
+                    <!-- CARD 1 -->
+                    <div class="mobile-step-card bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 p-6">
+                        <div class="h-48 rounded-2xl overflow-hidden mb-6">
+                            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80" alt="Intégration" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-primary/20 font-black text-5xl font-montserrat block mb-2">01</span>
+                        <h3 class="text-xl font-bold text-[#011031] mb-3">Rejoindre une Guilde</h3>
+                        <p class="text-[#4c4f5f] text-sm leading-relaxed mb-4">Intégrez votre pôle de spécialisation : Ingénierie Logicielle, Design UI/UX ou Data & IA. Apprenez en groupe de pairs.</p>
+                    </div>
+                    <!-- CARD 2 -->
+                    <div class="mobile-step-card bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 p-6">
+                        <div class="h-48 rounded-2xl overflow-hidden mb-6">
+                            <img src="https://images.unsplash.com/photo-1531498860502-2c67f99cb5ce?auto=format&fit=crop&w=600&q=80" alt="Build Weeks" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-primary/20 font-black text-5xl font-montserrat block mb-2">02</span>
+                        <h3 class="text-xl font-bold text-[#011031] mb-3">Les Build Weeks</h3>
+                        <p class="text-[#4c4f5f] text-sm leading-relaxed mb-4">Des sessions intensives où vous livrez des prototypes réels d'applications en équipe pluridisciplinaire agile.</p>
+                    </div>
+                    <!-- CARD 3 -->
+                    <div class="mobile-step-card bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 p-6">
+                        <div class="h-48 rounded-2xl overflow-hidden mb-6">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Portfolio" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-primary/20 font-black text-5xl font-montserrat block mb-2">03</span>
+                        <h3 class="text-xl font-bold text-[#011031] mb-3">Validation du Portfolio</h3>
+                        <p class="text-[#4c4f5f] text-sm leading-relaxed mb-4">Votre progression alimente votre portfolio public. Les recruteurs évaluent directement vos lignes de code et vos designs certifiés.</p>
+                    </div>
+                    <!-- CARD 4 -->
+                    <div class="mobile-step-card bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 p-6">
+                        <div class="h-48 rounded-2xl overflow-hidden mb-6">
+                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80" alt="Placement" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-primary/20 font-black text-5xl font-montserrat block mb-2">04</span>
+                        <h3 class="text-xl font-bold text-[#011031] mb-3">Placement B2B</h3>
+                        <p class="text-[#4c4f5f] text-sm leading-relaxed mb-4">Les recruteurs accèdent à vos réalisations certifiées et vous embauchent directement en stage, CDI ou freelance.</p>
                     </div>
                 </div>
             </div>
@@ -314,29 +383,78 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
         
-        // Scroll Storytelling Logic (Sticky images fading based on text scroll)
-        if(window.innerWidth > 1024) { // Only on desktop
-            const stepTexts = gsap.utils.toArray('.step-text');
-            const stepImages = gsap.utils.toArray('.step-image');
+        // Horizontal Scroll Storytelling (Only on desktop)
+        if(window.innerWidth >= 1024) {
+            const track = document.querySelector('.horizontal-track');
+            const panels = gsap.utils.toArray('.panel');
             
-            // Set first image active initially
-            stepImages[0].classList.add('active');
-
-            function activateStep(index) {
-                stepTexts.forEach(t => t.classList.remove('active'));
-                stepImages.forEach(img => img.classList.remove('active'));
+            // Horizontal scroll tween
+            let scrollTween = gsap.to(track, {
+                xPercent: -100 * (panels.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".horizontal-container",
+                    pin: true,
+                    scrub: 1,
+                    start: "top top",
+                    end: () => "+=" + track.offsetWidth,
+                    invalidateOnRefresh: true
+                }
+            });
+            
+            // Animate children inside each panel linked to the horizontal scroll
+            panels.forEach((panel, i) => {
+                if (i === 0) return; // skip intro
+                const img = panel.querySelector('.panel-image');
+                const card = panel.querySelector('.panel-card');
                 
-                stepTexts[index].classList.add('active');
-                stepImages[index].classList.add('active');
-            }
-
-            stepTexts.forEach((text, i) => {
-                ScrollTrigger.create({
-                    trigger: text,
-                    start: "top 50%",    // precisely when the top of the text block crosses the middle of the screen
-                    end: "bottom 50%",
-                    onEnter: () => activateStep(i),
-                    onEnterBack: () => activateStep(i)
+                if (img) {
+                    gsap.fromTo(img, 
+                        { x: 150, opacity: 0, scale: 0.9 },
+                        { 
+                            x: 0, opacity: 1, scale: 1,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: panel,
+                                containerAnimation: scrollTween,
+                                start: "left 85%",
+                                end: "left 30%",
+                                scrub: true
+                            }
+                        }
+                    );
+                }
+                if (card) {
+                    gsap.fromTo(card, 
+                        { x: -150, opacity: 0 },
+                        { 
+                            x: 0, opacity: 1,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: panel,
+                                containerAnimation: scrollTween,
+                                start: "left 85%",
+                                end: "left 30%",
+                                scrub: true
+                            }
+                        }
+                    );
+                }
+            });
+        } else {
+            // Mobile: smooth vertical scroll animations for cards
+            const mobileCards = gsap.utils.toArray('.mobile-step-card');
+            mobileCards.forEach((card) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
                 });
             });
         }
