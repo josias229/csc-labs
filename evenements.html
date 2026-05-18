@@ -62,7 +62,20 @@
         header.scrolled .btn-ghost { background: rgba(0, 110, 242, 0.08); color: #006ef2 !important; border-color: transparent; }
         .btn-ghost:hover { background: rgba(255, 255, 255, 0.25); }
         header.scrolled .btn-ghost:hover { background: rgba(0, 110, 242, 0.15); }
-        @media (max-width: 768px) { .nav-links { display: none; } }
+        /* Mobile Hamburger & Navigation Responsiveness */
+        #mobileMenuBtn { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 1010; }
+        #mobileMenuBtn span { display: block; height: 2px; width: 100%; border-radius: 9px; opacity: 1; left: 0; transform: rotate(0deg); transition: .25s ease-in-out; }
+        header.scrolled #mobileMenuBtn span { background: #011031; }
+        header:not(.scrolled) #mobileMenuBtn span { background: #FFFFFF; }
+        
+        #mobileMenuBtn.open span:nth-child(1) { transform: rotate(45deg); transform-origin: 10% 10%; background: #FFFFFF !important; }
+        #mobileMenuBtn.open span:nth-child(2) { opacity: 0; }
+        #mobileMenuBtn.open span:nth-child(3) { transform: rotate(-45deg); transform-origin: 10% 90%; background: #FFFFFF !important; }
+
+        @media (max-width: 1023px) {
+            .nav-links { display: none !important; }
+            #mobileMenuBtn { display: flex !important; }
+        }
     </style>
 </head>
 <body class="selection:bg-primary selection:text-white">
@@ -82,8 +95,31 @@
                 <li><a href="entreprises.html">Entreprises</a></li>
                 <li><a href="login.html" class="btn btn-ghost" style="padding: 10px 24px;">Connexion</a></li>
             </ul>
+            
+            <!-- Hamburger Menu Button -->
+            <button id="mobileMenuBtn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu" class="fixed inset-0 bg-[#080b1a]/95 backdrop-blur-xl z-[1005] flex flex-col justify-center items-center opacity-0 pointer-events-none transition-all duration-500">
+        <!-- Close background aura -->
+        <div class="absolute w-[300px] h-[300px] bg-primary/10 rounded-full blur-[100px] -top-20 -left-20 pointer-events-none"></div>
+        <div class="absolute w-[300px] h-[300px] bg-[#006ef2]/10 rounded-full blur-[100px] -bottom-20 -right-20 pointer-events-none"></div>
+        
+        <ul class="flex flex-col items-center gap-8 text-center text-xl font-bold">
+            <li><a href="concept.html" class="text-white/80 hover:text-white transition-colors">Le Concept</a></li>
+            <li><a href="guildes.html" class="text-white/80 hover:text-white transition-colors">Guildes</a></li>
+            <li><a href="projets.html" class="text-white/80 hover:text-white transition-colors">Projets</a></li>
+            <li><a href="evenements.html" class="text-white hover:text-primary transition-colors active">Événements</a></li>
+            <li><a href="entreprises.html" class="text-white/80 hover:text-white transition-colors">Entreprises</a></li>
+            <li><a href="login.html" class="bg-primary hover:bg-primary-light text-white px-8 py-3 rounded-xl transition-all shadow-md inline-block">Connexion</a></li>
+        </ul>
+    </div>
 
     <main>
         <!-- HERO EVENTS -->
@@ -319,6 +355,36 @@
                 header.classList.remove('scrolled');
             }
         });
+        
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isOpen = mobileMenuBtn.classList.toggle('open');
+                if (isOpen) {
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.add('opacity-100');
+                    document.body.style.overflow = 'hidden'; // prevent background scrolling
+                } else {
+                    mobileMenu.classList.remove('opacity-100');
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Close mobile menu when clicking on links
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuBtn.classList.remove('open');
+                    mobileMenu.classList.remove('opacity-100');
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
     </script>
 </body>
 </html>
