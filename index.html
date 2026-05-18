@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CSC Labs | Écosystème de Talents Élite</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#006ef2',
+                        'primary-light': '#4c70b6',
+                        'primary-dark': '#0150d9',
+                        accent: '#006ef2',
+                        'dark-bg': '#080b1a',
+                        surface: '#FFFFFF',
+                        'surface-alt': '#f2f4f5',
+                        'bg-body': '#f2f4f5',
+                        text: {
+                            main: '#011031',
+                            muted: '#4c4f5f'
+                        }
+                    },
+                    boxShadow: {
+                        'card': '0 10px 30px -5px rgba(15, 23, 42, 0.05)',
+                        'card-hover': '0 20px 40px -5px rgba(15, 23, 42, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f4f5; color: #011031; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Navbar from i6.html */
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; background: transparent; border-bottom: 1px solid transparent; padding: 24px 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        header.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(28, 82, 155, 0.08); padding: 16px 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: color 0.3s ease; }
+        header.scrolled .logo { color: #011031; }
+        .logo .logo-scrolled { display: none; }
+        .logo .logo-default { display: block; }
+        header.scrolled .logo .logo-scrolled { display: block; }
+        header.scrolled .logo .logo-default { display: none; }
+        .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 600; font-size: 0.95rem; transition: 0.3s ease; position: relative; }
+        header.scrolled .nav-links a { color: #64748B; }
+        .nav-links a:hover { color: #48C774; }
+        header.scrolled .nav-links a:hover { color: #1C529B; }
+        .btn-ghost { background: rgba(255, 255, 255, 0.15); color: #FFFFFF !important; backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; font-weight: 700; text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; }
+        header.scrolled .btn-ghost { background: rgba(28, 82, 155, 0.08); color: #1C529B !important; border-color: transparent; }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.25); }
+        header.scrolled .btn-ghost:hover { background: rgba(28, 82, 155, 0.15); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        /* Hero Carousel */
+        .hero-carousel { position: relative; height: 100vh; min-height: 700px; overflow: hidden; background-color: #080b1a; }
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; background-size: cover; background-position: center; z-index: 1; }
+        .slide.active { opacity: 1; z-index: 2; }
+        .slider-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 15, 26, 0.95) 0%, rgba(10, 15, 26, 0.7) 50%, rgba(10, 15, 26, 0.3) 100%); z-index: 1; pointer-events: none;}
+        
+        .hero-content { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out 0.4s; }
+        .slide.active .hero-content { opacity: 1; transform: translateY(0); }
+        
+        /* Event Carousel */
+        .event-slide { min-width: 100%; transition: transform 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="mainHeader">
+        <div class="container navbar relative z-[1001]">
+            <a href="index.html" class="logo">
+                <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-10 logo-default">
+                <img src="logoCSCLabs.png" alt="CSC Labs" class="h-10 logo-scrolled">
+            </a>
+            <ul class="nav-links"> 
+                <li><a href="concept.html">Le Concept</a></li>
+                <li><a href="guildes.html">Guildes</a></li>
+                <li><a href="projets.html">Projets</a></li>
+                <li><a href="evenements.html">Événements</a></li>
+                <li><a href="entreprises.html">Entreprises</a></li>
+                <li><a href="login.html" class="btn btn-ghost" style="padding: 10px 24px;">Connexion</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO CAROUSEL -->
+        <section class="hero-carousel">
+            <div class="slider w-full h-full">
+                <!-- Slide 1 -->
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80');">
+                    <div class="slider-overlay"></div>
+                    <div class="container mx-auto px-6 max-w-7xl h-full flex items-center relative z-10">
+                        <div class="hero-content max-w-2xl pt-20">
+                            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-[1.1] tracking-tight drop-shadow-lg">Learn. Build. <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-blue-300">Ship.</span></h1>
+                            <p class="text-xl text-white/90 mb-10 leading-relaxed font-medium">Rejoignez des talents africains qui apprennent en construisant des projets réels à fort impact.</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="#" class="bg-primary hover:bg-primary-light text-white font-bold px-8 py-4 rounded-xl shadow-[0_8px_20px_rgba(28,82,155,0.3)] transition-all transform hover:-translate-y-1 flex items-center gap-2">Commencer l'aventure <i class="fa-solid fa-arrow-right"></i></a>
+                                <a href="#concept" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-bold px-8 py-4 rounded-xl transition-all">Découvrir CSC Labs</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1920&q=80');">
+                    <div class="slider-overlay"></div>
+                    <div class="container mx-auto px-6 max-w-7xl h-full flex items-center relative z-10">
+                        <div class="hero-content max-w-2xl pt-20">
+                            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-[1.1] tracking-tight drop-shadow-lg">Build des projets. <br><span class="text-accent">Pas juste des compétences.</span></h1>
+                            <p class="text-xl text-white/90 mb-10 leading-relaxed font-medium">Challenges, Build Weeks et collaboration réelle pour créer un portfolio qui attire les opportunités.</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="#guildes" class="bg-primary hover:bg-primary-light text-white font-bold px-8 py-4 rounded-xl shadow-[0_8px_20px_rgba(28,82,155,0.3)] transition-all transform hover:-translate-y-1 flex items-center gap-2">Explorer les Guildes <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1920&q=80');">
+                    <div class="slider-overlay"></div>
+                    <div class="container mx-auto px-6 max-w-7xl h-full flex items-center relative z-10">
+                        <div class="hero-content max-w-2xl pt-20">
+                            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-[1.1] tracking-tight drop-shadow-lg">From Talent <br>To <span class="text-orange-400">Impact.</span></h1>
+                            <p class="text-xl text-white/90 mb-10 leading-relaxed font-medium">Connectez-vous à des builders, mentors et entreprises qui transforment les idées en solutions concrètes.</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="#entreprises" class="bg-primary hover:bg-primary-light text-white font-bold px-8 py-4 rounded-xl shadow-[0_8px_20px_rgba(28,82,155,0.3)] transition-all transform hover:-translate-y-1 flex items-center gap-2">Découvrir les opportunités <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section id="stats-section" class="relative z-20 py-16 bg-bg-body">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="bg-white rounded-3xl p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8 shadow-[0_15px_35px_rgba(28,82,155,0.05)] border border-gray-100 text-center relative -mt-32">
+                    <div>
+                        <h3 id="statStudents" class="text-4xl md:text-5xl font-black text-primary font-montserrat mb-2">0</h3>
+                        <p class="text-text-muted text-xs md:text-sm font-bold uppercase tracking-widest">Talents Actifs</p>
+                    </div>
+                    <div>
+                        <h3 id="statGuildes" class="text-4xl md:text-5xl font-black text-primary font-montserrat mb-2">0</h3>
+                        <p class="text-text-muted text-xs md:text-sm font-bold uppercase tracking-widest">Guildes Expertes</p>
+                    </div>
+                    <div>
+                        <h3 id="statProjets" class="text-4xl md:text-5xl font-black text-primary font-montserrat mb-2">0</h3>
+                        <p class="text-text-muted text-xs md:text-sm font-bold uppercase tracking-widest">Projets Livrés</p>
+                    </div>
+                    <div>
+                        <h3 id="statEmploy" class="text-4xl md:text-5xl font-black text-primary font-montserrat mb-2">0</h3>
+                        <p class="text-text-muted text-xs md:text-sm font-bold uppercase tracking-widest">Taux d'insertion</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LE CONCEPT / METHODE -->
+        <section id="concept" class="py-24 bg-surface-alt relative overflow-hidden">
+            <div class="container mx-auto px-6 max-w-7xl relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-primary-light font-extrabold text-sm uppercase tracking-[0.2em] mb-4 block">Notre Philosophie</span>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-r from-text-main to-primary-light">Les diplômes ne suffisent plus.<br><span class="text-text-main font-bold">Le marché veut des faiseurs.</span></h2>
+                    <p class="text-lg text-text-muted">Les entreprises technologiques ne recrutent plus sur la seule base d'un CV académique. Elles cherchent des talents capables de s'intégrer dans une équipe et de livrer du concret.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 relative">
+                    <div class="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 border-t-2 border-dashed border-gray-300 z-0"></div>
+                    
+                    <div class="bg-white p-10 rounded-3xl text-center relative z-10 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 group gsap-scroll-element">
+                        <div class="w-24 h-24 bg-white border-4 border-primary-light rounded-full flex items-center justify-center text-4xl text-primary mx-auto mb-8 relative shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-users"></i>
+                            <div class="absolute -top-1 -right-1 w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">1</div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-text-main">Collaborez</h3>
+                        <p class="text-text-muted leading-relaxed">Intégrez des équipes pluridisciplinaires (Dev + Design + Product) pour simuler l'environnement réel d'une startup technologique.</p>
+                    </div>
+                    
+                    <div class="bg-white p-10 rounded-3xl text-center relative z-10 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 group gsap-scroll-element">
+                        <div class="w-24 h-24 bg-white border-4 border-primary-light rounded-full flex items-center justify-center text-4xl text-primary mx-auto mb-8 relative shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-hammer"></i>
+                            <div class="absolute -top-1 -right-1 w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">2</div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-text-main">Construisez</h3>
+                        <p class="text-text-muted leading-relaxed">Participez à nos Build Weeks intensives et aux challenges ouverts pour résoudre des problèmes complexes sous la pression du temps.</p>
+                    </div>
+
+                    <div class="bg-white p-10 rounded-3xl text-center relative z-10 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 group gsap-scroll-element">
+                        <div class="w-24 h-24 bg-white border-4 border-primary-light rounded-full flex items-center justify-center text-4xl text-primary mx-auto mb-8 relative shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-star"></i>
+                            <div class="absolute -top-1 -right-1 w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">3</div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-text-main">Brillez</h3>
+                        <p class="text-text-muted leading-relaxed">Développez un portfolio public certifié par la communauté. Exposez vos réalisations directement aux entreprises partenaires.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GUILDES EXACTEMENT COMME I6A -->
+        <section id="guildes" class="py-24 bg-white relative">
+            <div class="container mx-auto px-6 max-w-7xl">
+
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-3xl md:text-4xl font-black mb-4 tracking-tight">Choisissez votre porte d'entrée</h2>
+                    <p class="text-text-muted text-lg">Intégrez une guilde de spécialistes. Apprenez avec vos pairs, partagez vos ressources et relevez des défis techniques de haut niveau.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                    <!-- Carte Dev -->
+                    <div class="group bg-surface rounded-3xl p-8 border border-gray-100 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full gsap-scroll-element">
+                        <div class="w-16 h-16 rounded-2xl bg-blue-50 text-primary flex items-center justify-center text-3xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-terminal"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Dev Logiciel</h3>
+                        <p class="text-text-muted text-sm leading-relaxed flex-grow">Frontend, Backend, Mobile & Web3. Maîtrisez les stacks les plus demandées par le marché et concevez des architectures robustes.</p>
+                        
+                        <!-- Mentor Badge -->
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80" alt="Mentor Dev" class="w-8 h-8 rounded-full object-cover">
+                            <div>
+                                <div class="text-xs font-bold text-text-main">Kofi Mensah</div>
+                                <div class="text-[10px] text-text-muted">Lead Architect (ex-Google)</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 font-bold text-primary text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Découvrir la stack <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Carte Design -->
+                    <div class="group bg-surface rounded-3xl p-8 border border-gray-100 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full gsap-scroll-element">
+                        <div class="w-16 h-16 rounded-2xl bg-pink-50 text-pink-500 flex items-center justify-center text-3xl mb-6 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Design UI/UX</h3>
+                        <p class="text-text-muted text-sm leading-relaxed flex-grow">Recherche utilisateur, prototypage sur Figma, Design System. Créez des expériences intuitives et mémorables.</p>
+                        
+                        <!-- Mentor Badge -->
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80" alt="Mentor Design" class="w-8 h-8 rounded-full object-cover">
+                            <div>
+                                <div class="text-xs font-bold text-text-main">Amina Bello</div>
+                                <div class="text-[10px] text-text-muted">Senior Product Designer</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 font-bold text-pink-500 text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Voir le portfolio <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Carte Data -->
+                    <div class="group bg-surface rounded-3xl p-8 border border-gray-100 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full gsap-scroll-element">
+                        <div class="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-3xl mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Data & IA</h3>
+                        <p class="text-text-muted text-sm leading-relaxed flex-grow">Analyse de données, Machine Learning, intégration d'API (OpenAI). Donnez de l'intelligence aux applications.</p>
+                        
+                        <!-- Mentor Badge -->
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80" alt="Mentor Data" class="w-8 h-8 rounded-full object-cover">
+                            <div>
+                                <div class="text-xs font-bold text-text-main">Dr. Ousmane Diop</div>
+                                <div class="text-[10px] text-text-muted">AI Research Scientist</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 font-bold text-purple-600 text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Explorer l'IA <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Carte Product -->
+                    <div class="group bg-surface rounded-3xl p-8 border border-gray-100 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full gsap-scroll-element">
+                        <div class="w-16 h-16 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center text-3xl mb-6 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Product & Growth</h3>
+                        <p class="text-text-muted text-sm leading-relaxed flex-grow">Gestion de produit agile, SEO, acquisition utilisateur et stratégies de croissance pour lancer des produits qui marchent.</p>
+                        
+                        <!-- Mentor Badge -->
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80" alt="Mentor Product" class="w-8 h-8 rounded-full object-cover">
+                            <div>
+                                <div class="text-xs font-bold text-text-main">Sarah Touré</div>
+                                <div class="text-[10px] text-text-muted">PM (ex-Y Combinator)</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 font-bold text-orange-500 text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Lancer un produit <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- BUILD WEEKS CAROUSEL -->
+        <section class="py-24 bg-surface-alt">
+            <div class="container mx-auto px-6 max-w-7xl relative">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-primary-light font-extrabold uppercase tracking-widest text-sm mb-2 block">Événements</span>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight text-text-main">Prochaines Build Weeks</h2>
+                </div>
+                
+                <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary-dark to-primary shadow-2xl gsap-scroll-scale group">
+                    <button id="prevEvent" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button id="nextEvent" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"><i class="fa-solid fa-chevron-right"></i></button>
+
+                    <div id="eventsSlider" class="flex transition-transform duration-500 ease-out">
+                        <!-- Event 1 -->
+                        <div class="min-w-full p-8 md:p-16 flex flex-col md:flex-row items-center gap-10">
+                            <div class="flex-1">
+                                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur text-white font-bold text-xs uppercase tracking-widest mb-6">
+                                    <i class="fa-solid fa-fire text-accent"></i> Hackathon Inclusion Financière
+                                </div>
+                                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">FinTech Challenge 2026</h3>
+                                <p class="text-blue-100 text-lg mb-8 max-w-xl">48 heures pour concevoir en équipe une solution fintech innovante. Mentoring technique inclus. Prix et opportunités d'embauche.</p>
+                                <div class="flex items-center gap-6 text-sm font-semibold text-white/90 mb-8">
+                                    <span class="flex items-center gap-2"><i class="fa-regular fa-calendar"></i> 24-26 Sept.</span>
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot"></i> Sèmè City / En ligne</span>
+                                </div>
+                                <a href="#" class="bg-accent hover:bg-green-400 text-dark-bg font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all inline-block">S'inscrire</a>
+                            </div>
+                            <div class="hidden md:flex flex-1 justify-center relative">
+                                <div class="w-64 h-64 bg-white/10 backdrop-blur rounded-3xl border border-white/30 transform rotate-6 flex items-center justify-center text-7xl text-white shadow-2xl">
+                                    <i class="fa-solid fa-wallet"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Event 2 -->
+                        <div class="min-w-full p-8 md:p-16 flex flex-col md:flex-row items-center gap-10">
+                            <div class="flex-1">
+                                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur text-white font-bold text-xs uppercase tracking-widest mb-6">
+                                    <i class="fa-solid fa-leaf text-green-400"></i> AgriTech Build Week
+                                </div>
+                                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Innovation Agricole AI</h3>
+                                <p class="text-blue-100 text-lg mb-8 max-w-xl">Utilisez l'IA pour résoudre les défis de l'agriculture locale. Formez votre équipe et prototypez une solution viable.</p>
+                                <div class="flex items-center gap-6 text-sm font-semibold text-white/90 mb-8">
+                                    <span class="flex items-center gap-2"><i class="fa-regular fa-calendar"></i> 10-15 Oct.</span>
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot"></i> Abidjan / En ligne</span>
+                                </div>
+                                <a href="#" class="bg-accent hover:bg-green-400 text-dark-bg font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all inline-block">S'inscrire</a>
+                            </div>
+                            <div class="hidden md:flex flex-1 justify-center relative">
+                                <div class="w-64 h-64 bg-white/10 backdrop-blur rounded-3xl border border-white/30 transform -rotate-6 flex items-center justify-center text-7xl text-white shadow-2xl">
+                                    <i class="fa-solid fa-seedling"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                        <div class="w-3 h-3 rounded-full bg-white cursor-pointer transition-all event-indicator active" data-index="0"></div>
+                        <div class="w-3 h-3 rounded-full bg-white/30 cursor-pointer transition-all event-indicator" data-index="1"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJETS EXACTEMENT COMME I6A -->
+        <section id="projets" class="py-24 bg-white">
+            <div class="container mx-auto px-6 max-w-7xl">
+
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="max-w-xl">
+                        <span class="text-primary font-extrabold uppercase tracking-widest text-sm mb-2 block">Hall of Fame</span>
+                        <h2 class="text-3xl md:text-4xl font-black tracking-tight">Projets à impact créés par la communauté</h2>
+                    </div>
+                    <a href="#" class="text-primary font-bold hover:gap-2 flex items-center gap-1 transition-all">
+                        Voir tout le portfolio <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Grille/Slider de projets (Ici en grid scrollable horizontalement sur mobile) -->
+                <div class="flex overflow-x-auto hide-scrollbar gap-8 pb-8 snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-3 lg:overflow-visible">
+
+                    <!-- Projet 1 -->
+                    <div class="min-w-[300px] lg:min-w-0 bg-surface-alt rounded-3xl p-4 snap-center group cursor-pointer gsap-scroll-element">
+                        <div class="h-56 w-full rounded-2xl bg-gray-200 mb-6 overflow-hidden relative">
+                            <!-- Image de substitution (Placeholder) stylisée -->
+                            <img src="https://images.unsplash.com/photo-1607513816405-c8e9b6a6c429?auto=format&fit=crop&w=600&q=80"
+                                alt="App interface"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-text-main text-xs font-bold px-3 py-1.5 rounded-lg">Web App</div>
+                        </div>
+                        <div class="px-2">
+                            <h3 class="text-xl font-bold mb-2">PaySwift</h3>
+                            <p class="text-text-muted text-sm mb-4 line-clamp-2">Solution d'agrégation de paiements mobiles pour les petits commerces en zone périurbaine.</p>
+                            <div class="flex items-center gap-3 text-xs font-semibold text-text-muted border-t border-gray-200 pt-4">
+                                <span class="bg-gray-100 px-2 py-1 rounded">React</span>
+                                <span class="bg-gray-100 px-2 py-1 rounded">Node.js</span>
+                                <div class="ml-auto text-primary">Voir <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 2 -->
+                    <div class="min-w-[300px] lg:min-w-0 bg-surface-alt rounded-3xl p-4 snap-center group cursor-pointer gsap-scroll-element">
+                        <div class="h-56 w-full rounded-2xl bg-gray-200 mb-6 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=600&q=80"
+                                alt="App interface"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-text-main text-xs font-bold px-3 py-1.5 rounded-lg">Mobile / IA</div>
+                        </div>
+                        <div class="px-2">
+                            <h3 class="text-xl font-bold mb-2">AgriVision</h3>
+                            <p class="text-text-muted text-sm mb-4 line-clamp-2">Application de détection de maladies des cultures par intelligence artificielle embarquée sur mobile.</p>
+                            <div class="flex items-center gap-3 text-xs font-semibold text-text-muted border-t border-gray-200 pt-4">
+                                <span class="bg-gray-100 px-2 py-1 rounded">Flutter</span>
+                                <span class="bg-gray-100 px-2 py-1 rounded">TensorFlow</span>
+                                <div class="ml-auto text-primary">Voir <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 3 -->
+                    <div class="min-w-[300px] lg:min-w-0 bg-surface-alt rounded-3xl p-4 snap-center group cursor-pointer gsap-scroll-element">
+                        <div class="h-56 w-full rounded-2xl bg-primary mb-6 overflow-hidden relative flex justify-center items-center p-4">
+                            <!-- Design System abstrait -->
+                            <div class="w-full h-full border-2 border-white/20 rounded-xl flex flex-col gap-2 p-3 bg-white/5 backdrop-blur group-hover:scale-105 transition-transform duration-500">
+                                <div class="w-1/2 h-6 bg-white/40 rounded"></div>
+                                <div class="w-full h-20 bg-white/20 rounded flex-1 mt-2"></div>
+                                <div class="flex gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-accent"></div>
+                                    <div class="w-8 h-8 rounded-full bg-white/30"></div>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-text-main text-xs font-bold px-3 py-1.5 rounded-lg">Design System</div>
+                        </div>
+                        <div class="px-2">
+                            <h3 class="text-xl font-bold mb-2">AfrUI Kit</h3>
+                            <p class="text-text-muted text-sm mb-4 line-clamp-2">Bibliothèque de composants UI open-source adaptée aux standards esthétiques et d'accessibilité du continent.</p>
+                            <div class="flex items-center gap-3 text-xs font-semibold text-text-muted border-t border-gray-200 pt-4">
+                                <span class="bg-gray-100 px-2 py-1 rounded">Figma</span>
+                                <span class="bg-gray-100 px-2 py-1 rounded">Design Token</span>
+                                <div class="ml-auto text-primary">Voir <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ENTREPRISES COMBINÉES -->
+        <section id="entreprises" class="py-24 bg-surface-alt border-t border-gray-200">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <!-- Grille de Logos (Partenaires) issue de i6A -->
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-primary font-extrabold uppercase tracking-widest text-sm mb-2 block">Espace Entreprises</span>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-4 text-text-main">Ils recrutent dans notre vivier</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500 mb-20">
+                    <div class="text-xl font-black text-gray-800 flex items-center gap-2"><i class="fa-brands fa-aws text-2xl"></i> CloudCorp</div>
+                    <div class="text-xl font-black text-gray-800 flex items-center gap-2"><i class="fa-brands fa-stripe text-2xl"></i> FinTechAfr</div>
+                    <div class="text-xl font-black text-gray-800 flex items-center gap-2"><i class="fa-solid fa-building-columns text-2xl"></i> BankHQ</div>
+                    <div class="text-xl font-black text-gray-800 flex items-center gap-2"><i class="fa-solid fa-mobile-screen text-2xl"></i> TelcoPlus</div>
+                    <div class="text-xl font-black text-gray-800 flex items-center gap-2 hidden lg:flex"><i class="fa-brands fa-google text-2xl"></i> DevAgency</div>
+                </div>
+
+                <!-- Section détaillée B2B issue de i6 -->
+                <div class="bg-dark-bg text-white rounded-[2.5rem] p-8 md:p-16 grid lg:grid-cols-2 gap-12 items-center relative overflow-hidden shadow-2xl">
+                    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/30 rounded-full blur-[80px] translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+
+                    <div class="relative z-10">
+                        <span class="text-accent font-extrabold uppercase tracking-widest text-sm mb-4 block">Partenaires</span>
+                        <h2 class="text-3xl md:text-4xl font-black mb-6 leading-tight">Recrutez des talents éprouvés.</h2>
+                        <p class="text-gray-300 text-lg mb-8 leading-relaxed">Ne vous fiez plus aux CV standards. Identifiez les meilleurs éléments grâce à leurs performances réelles lors de nos challenges et hackathons.</p>
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-center gap-3 text-white/90 font-medium"><i class="fa-solid fa-check-circle text-accent text-xl"></i> Talents formés aux stacks modernes</li>
+                            <li class="flex items-center gap-3 text-white/90 font-medium"><i class="fa-solid fa-check-circle text-accent text-xl"></i> Portfolio de projets réels vérifiés</li>
+                            <li class="flex items-center gap-3 text-white/90 font-medium"><i class="fa-solid fa-check-circle text-accent text-xl"></i> Soft-skills validés par le travail d'équipe</li>
+                            <li class="flex items-center gap-3 text-white/90 font-medium"><i class="fa-solid fa-check-circle text-accent text-xl"></i> Possibilité de sponsoriser une Build Week</li>
+                        </ul>
+                        <a href="#" class="bg-accent hover:bg-green-400 text-dark-bg font-bold px-8 py-4 rounded-xl transition-all shadow-lg inline-flex items-center gap-2 transform hover:-translate-y-1">Devenir partenaire <i class="fa-solid fa-briefcase"></i></a>
+                    </div>
+                    
+                    <div class="relative z-10 hidden lg:block">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" alt="Dashboard B2B" class="rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] transform rotate-y-[-5deg] rotate-x-[2deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-500" style="perspective: 1000px;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL PLEINE LARGEUR -->
+        <section class="container mx-auto px-6 max-w-7xl relative z-10 mb-20 mt-20">
+            <div class="bg-gradient-to-br from-primary to-primary-dark rounded-[2rem] p-12 md:p-20 text-center shadow-2xl text-white">
+                <h2 class="text-3xl md:text-5xl font-black mb-6">Prêt pour le challenge ?</h2>
+                <p class="text-white/90 text-lg mb-10 leading-relaxed max-w-2xl mx-auto">Inscrivez-vous gratuitement, rejoignez une guilde et commencez à construire l'Afrique de demain dès aujourd'hui.</p>
+                <a href="#" class="bg-white hover:bg-gray-100 text-primary-dark font-bold text-lg px-10 py-5 rounded-2xl shadow-lg transition-all inline-block transform hover:-translate-y-1">Créer mon compte gratuit</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-bg pt-20 relative overflow-hidden">
+        <div class="container mx-auto px-6 max-w-7xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
+                <!-- Brand -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <a href="#" class="flex items-center gap-3 text-2xl font-extrabold text-white tracking-tight">
+                        <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-12">
+                    </a>
+                    <p class="text-white/60 text-sm leading-relaxed max-w-sm">L'écosystème numérique qui transforme la jeunesse africaine en force technologique.</p>
+                    <div class="mt-2">
+                        <div class="text-xs font-bold text-white/80 uppercase tracking-widest mb-4">Rejoignez le réseau</div>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0077b5] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#1877F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#24292e] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-github"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#5865F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div class="lg:col-span-2 lg:col-start-6">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Plateforme</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="concept.html" class="hover:text-white transition-colors">Comment ça marche</a></li>
+                        <li><a href="guildes.html" class="hover:text-white transition-colors">Les Guildes</a></li>
+                        <li><a href="projets.html" class="hover:text-white transition-colors">Projets réalisés</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Talent Hub (Login)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-2">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Ressources</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Calendrier (Events)</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog & Actus</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Wiki / Cours</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mentors</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-3">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Entreprises</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Proposer une mission</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Recruter un talent</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Devenir sponsor</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Espace B2B</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 pb-12 flex flex-col items-center w-full relative">
+                <!-- Ambient Glowing Aura -->
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-40 bg-gradient-to-t from-primary/25 to-transparent rounded-full blur-[80px] pointer-events-none z-0"></div>
+                
+                <div class="w-full text-center text-sm text-white/40 font-medium relative z-20 mb-6">
+                    <span>© 2026 Campus Skill Challenge. Tous droits réservés.</span>
+                </div>
+                <!-- Huge tech-elite designed text -->
+                <h1 class="font-montserrat text-[14vw] font-black leading-[0.75] tracking-[0.1em] text-center m-0 select-none text-transparent bg-clip-text bg-gradient-to-b from-white/15 via-white/5 to-transparent transform translate-y-6 relative z-10 hover:from-accent/30 hover:to-transparent transition-all duration-700 cursor-default" style="-webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-shadow: 0 0 60px rgba(28, 82, 155, 0.25);">CSC LABS</h1>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        // Hero Carousel
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        setInterval(nextSlide, 6000);
+
+        // Navbar Scroll Effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Stats Counter
+        function animateCounter(id, target, duration, suffix = '') {
+            let obj = document.getElementById(id);
+            if (!obj) return;
+            let start = 0;
+            let startTime = null;
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                let progress = Math.min((timestamp - startTime) / duration, 1);
+                let easeProgress = 1 - Math.pow(1 - progress, 3);
+                obj.innerHTML = Math.floor(easeProgress * target) + suffix;
+                if (progress < 1) window.requestAnimationFrame(step);
+            }
+            window.requestAnimationFrame(step);
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateCounter('statStudents', 1500, 2500, '+');
+                animateCounter('statGuildes', 12, 1500, '');
+                animateCounter('statProjets', 120, 2000, '+');
+                animateCounter('statEmploy', 85, 2500, '%');
+                observer.disconnect();
+            }
+        }, { threshold: 0.5 });
+        const statsEl = document.getElementById('stats-section');
+        if(statsEl) observer.observe(statsEl);
+
+        // Events Carousel
+        const eventsSlider = document.getElementById('eventsSlider');
+        const prevEvent = document.getElementById('prevEvent');
+        const nextEvent = document.getElementById('nextEvent');
+        const eventIndicators = document.querySelectorAll('.event-indicator');
+        let currentEvent = 0;
+
+        function updateEventSlider() {
+            eventsSlider.style.transform = `translateX(-${currentEvent * 100}%)`;
+            eventIndicators.forEach((ind, i) => {
+                if (i === currentEvent) {
+                    ind.classList.add('bg-white', 'active');
+                    ind.classList.remove('bg-white/30');
+                } else {
+                    ind.classList.remove('bg-white', 'active');
+                    ind.classList.add('bg-white/30');
+                }
+            });
+        }
+
+        if (nextEvent) {
+            nextEvent.addEventListener('click', () => { currentEvent = (currentEvent + 1) % 2; updateEventSlider(); });
+            prevEvent.addEventListener('click', () => { currentEvent = (currentEvent - 1 + 2) % 2; updateEventSlider(); });
+            eventIndicators.forEach(ind => {
+                ind.addEventListener('click', (e) => { currentEvent = parseInt(e.target.dataset.index); updateEventSlider(); });
+            });
+        }
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        gsap.utils.toArray('.gsap-scroll-element').forEach((el, i) => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top bottom-=100", toggleActions: "play none none none" },
+                y: 50, opacity: 0, duration: 0.8, ease: "power3.out"
+            });
+        });
+
+        gsap.utils.toArray('.gsap-scroll-scale').forEach((el, i) => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top bottom-=50", toggleActions: "play none none none" },
+                scale: 0.95, opacity: 0, duration: 1, ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>

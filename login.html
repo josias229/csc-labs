@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CSC Labs | Portail de connexion d'élite</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#006ef2',
+                        'primary-light': '#4c70b6',
+                        'primary-dark': '#0150d9',
+                        accent: '#006ef2',
+                        'dark-bg': '#080b1a',
+                        surface: '#FFFFFF',
+                        'surface-alt': '#f2f4f5',
+                        'bg-body': '#f2f4f5',
+                        text: {
+                            main: '#011031',
+                            muted: '#4c4f5f'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #080b1a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 110, 242, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(76, 112, 182, 0.15) 0px, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.004) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.004) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-white flex items-center justify-center min-h-screen relative overflow-hidden p-6">
+
+    <!-- Ambient glowing lights -->
+    <div class="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+    <div class="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent/15 rounded-full blur-[140px] translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+
+    <div class="w-full max-w-md relative z-10">
+        
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center justify-center gap-3 text-3xl font-extrabold text-white tracking-tight">
+                <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-16">
+            </a>
+            <p class="text-white/60 text-sm mt-3">Rejoignez l'élite des bâtisseurs technologiques</p>
+        </div>
+
+        <!-- Connection Card (Premium Dark UI) -->
+        <div class="bg-[#0E1526]/90 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-8 md:p-10 shadow-[0_30px_100px_rgba(0,0,0,0.8)] text-white relative overflow-hidden">
+            <!-- Top Subtle Border Light Line -->
+            <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+            
+            <!-- Dual pathway tabs -->
+            <div class="flex bg-black/30 rounded-2xl p-1.5 mb-8 border border-white/5 relative z-10">
+                <button id="tabBuilder" class="flex-1 py-3 text-sm font-bold rounded-xl bg-primary text-white shadow-lg transition-all duration-300 focus:outline-none flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-hammer text-accent"></i> Builder
+                </button>
+                <button id="tabEntreprise" class="flex-1 py-3 text-sm font-bold rounded-xl text-white/50 hover:text-white transition-all duration-300 focus:outline-none flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-briefcase"></i> Entreprise
+                </button>
+            </div>
+
+            <!-- Form -->
+            <form class="space-y-6 relative z-10">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Identifiant / Adresse Email</label>
+                    <div class="relative group">
+                        <input type="email" placeholder="nom@exemple.com" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-[#131C30] border border-white/10 focus:outline-none focus:border-primary-light focus:ring-1 focus:ring-primary-light text-sm text-white placeholder-white/20 transition-all shadow-inner">
+                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-accent transition-colors"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Mot de passe</label>
+                        <a href="#" class="text-xs text-accent hover:text-green-400 hover:underline font-bold transition-colors">Oublié ?</a>
+                    </div>
+                    <div class="relative group">
+                        <input type="password" placeholder="••••••••" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-[#131C30] border border-white/10 focus:outline-none focus:border-primary-light focus:ring-1 focus:ring-primary-light text-sm text-white placeholder-white/20 transition-all shadow-inner">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-accent transition-colors"></i>
+                    </div>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="remember" class="w-5 h-5 rounded-lg bg-[#131C30] border-white/10 text-accent focus:ring-0 focus:ring-offset-0 cursor-pointer checked:bg-accent checked:border-accent">
+                    <label for="remember" class="text-xs text-white/70 select-none cursor-pointer hover:text-white transition-colors">Se souvenir de moi</label>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="w-full bg-accent hover:bg-green-400 text-dark-bg font-extrabold py-4 rounded-2xl shadow-[0_8px_25px_rgba(72,199,116,0.25)] hover:shadow-[0_12px_30px_rgba(72,199,116,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 inline-block text-center text-sm tracking-wide">
+                    Se connecter au Dashboard
+                </button>
+            </form>
+
+            <!-- Register redirection -->
+            <div class="text-center mt-8 pt-6 border-t border-white/5 text-sm text-white/60 relative z-10">
+                Nouveau bâtisseur ? <a href="#" class="text-accent font-bold hover:text-green-400 hover:underline transition-colors">Créer un compte</a>
+            </div>
+
+        </div>
+
+        <!-- Back to website -->
+        <div class="text-center mt-6">
+            <a href="index.html" class="text-white/40 hover:text-white/80 text-xs font-bold transition-all inline-flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Retour au site principal</a>
+        </div>
+
+    </div>
+
+    <!-- JS for interactive Tabs -->
+    <script>
+        const tabBuilder = document.getElementById('tabBuilder');
+        const tabEntreprise = document.getElementById('tabEntreprise');
+        
+        tabBuilder.addEventListener('click', () => {
+            // Activate Builder Tab
+            tabBuilder.className = "flex-1 py-3 text-sm font-bold rounded-xl bg-primary text-white shadow-lg transition-all duration-300 focus:outline-none flex items-center justify-center gap-2";
+            tabEntreprise.className = "flex-1 py-3 text-sm font-bold rounded-xl text-white/50 hover:text-white transition-all duration-300 focus:outline-none flex items-center justify-center gap-2";
+        });
+        
+        tabEntreprise.addEventListener('click', () => {
+            // Activate Enterprise Tab
+            tabEntreprise.className = "flex-1 py-3 text-sm font-bold rounded-xl bg-primary text-white shadow-lg transition-all duration-300 focus:outline-none flex items-center justify-center gap-2";
+            tabBuilder.className = "flex-1 py-3 text-sm font-bold rounded-xl text-white/50 hover:text-white transition-all duration-300 focus:outline-none flex items-center justify-center gap-2";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CSC Labs | Les Projets - Hall of Fame</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#006ef2',
+                        'primary-light': '#4c70b6',
+                        'primary-dark': '#0150d9',
+                        accent: '#006ef2',
+                        'dark-bg': '#080b1a',
+                        surface: '#FFFFFF',
+                        'surface-alt': '#f2f4f5',
+                        'bg-body': '#f2f4f5',
+                        text: {
+                            main: '#011031',
+                            muted: '#4c4f5f'
+                        }
+                    },
+                    boxShadow: {
+                        'card': '0 10px 30px -5px rgba(15, 23, 42, 0.05)',
+                        'card-hover': '0 20px 40px -5px rgba(15, 23, 42, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f4f5; color: #011031; }
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; background: transparent; border-bottom: 1px solid transparent; padding: 24px 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        header.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(28, 82, 155, 0.08); padding: 16px 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: color 0.3s ease; }
+        header.scrolled .logo { color: #011031; }
+        .logo .logo-scrolled { display: none; }
+        .logo .logo-default { display: block; }
+        header.scrolled .logo .logo-scrolled { display: block; }
+        header.scrolled .logo .logo-default { display: none; }
+        .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 600; font-size: 0.95rem; transition: 0.3s ease; position: relative; }
+        header.scrolled .nav-links a { color: #4c4f5f; }
+        .nav-links a:hover, .nav-links .active { color: #006ef2; }
+        header.scrolled .nav-links a:hover, header.scrolled .nav-links .active { color: #006ef2; }
+        .btn-ghost { background: rgba(255, 255, 255, 0.15); color: #FFFFFF !important; backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; font-weight: 700; text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; }
+        header.scrolled .btn-ghost { background: rgba(0, 110, 242, 0.08); color: #006ef2 !important; border-color: transparent; }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.25); }
+        header.scrolled .btn-ghost:hover { background: rgba(0, 110, 242, 0.15); }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="mainHeader">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-10 logo-default">
+                <img src="logoCSCLabs.png" alt="CSC Labs" class="h-10 logo-scrolled">
+            </a>
+            <ul class="nav-links">
+                <li><a href="concept.html">Le Concept</a></li>
+                <li><a href="guildes.html">Guildes</a></li>
+                <li><a href="projets.html" class="active">Projets</a></li>
+                <li><a href="evenements.html">Événements</a></li>
+                <li><a href="entreprises.html">Entreprises</a></li>
+                <li><a href="login.html" class="btn btn-ghost" style="padding: 10px 24px;">Connexion</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO PORTFOLIO -->
+        <section class="bg-dark-bg text-white pt-40 pb-24 md:pt-48 md:pb-32 relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 right-0 w-2/3 md:w-3/4 h-full bg-[url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center opacity-40 mask-image-to-l pointer-events-none" style="mask-image: linear-gradient(to left, black, transparent); -webkit-mask-image: linear-gradient(to left, black, transparent);"></div>
+            
+            <div class="container mx-auto px-6 max-w-7xl relative z-10">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight">Leur travail parle <br><span class="text-accent">pour eux.</span></h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">Découvrez les applications et produits réels conçus, développés et déployés par nos cohortes lors des Build Weeks.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO GRID -->
+        <section class="py-24 bg-bg-body">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <!-- Search & Filters -->
+                <div class="mb-12 max-w-3xl mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-4 bg-white p-2 rounded-2xl border border-gray-200 shadow-sm">
+                        <div class="flex-1 relative">
+                            <i class="fa-solid fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="Rechercher une techno, un projet..." class="w-full bg-transparent border-none text-text-main placeholder-gray-400 py-3 pl-12 pr-4 focus:outline-none focus:ring-0">
+                        </div>
+                        <div class="h-px sm:h-auto sm:w-px bg-gray-200"></div>
+                        <div class="flex items-center px-4">
+                            <select class="bg-transparent border-none text-text-main focus:outline-none focus:ring-0 w-full font-bold">
+                                <option>Catégorie : Toutes</option>
+                                <option>Web Apps</option>
+                                <option>Mobile</option>
+                                <option>Data & IA</option>
+                            </select>
+                        </div>
+                        <button class="bg-primary text-white font-bold px-6 py-3 rounded-xl hover:bg-primary-light transition-colors">Filtrer</button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Projet 1 -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 group border border-gray-100 flex flex-col h-full">
+                        <div class="relative h-56 overflow-hidden">
+                            <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                <span class="bg-dark-bg/80 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg">Web App</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Projet" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-text-main">AgriMarket Dash</h3>
+                            <p class="text-text-muted text-sm leading-relaxed mb-6 flex-grow">Dashboard analytique pour coopératives agricoles. Suivi des récoltes, prédictions de prix et logistique en temps réel.</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-md">React</span>
+                                <span class="bg-green-50 text-green-600 text-xs font-bold px-2 py-1 rounded-md">Node.js</span>
+                                <span class="bg-purple-50 text-purple-600 text-xs font-bold px-2 py-1 rounded-md">Prisma</span>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 mt-auto">
+                                <div class="flex items-center -space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=40&h=40&q=80" class="w-8 h-8 rounded-full border-2 border-white" title="Développeur Frontend">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=40&h=40&q=80" class="w-8 h-8 rounded-full border-2 border-white" title="UI Designer">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=40&h=40&q=80" class="w-8 h-8 rounded-full border-2 border-white" title="Développeur Backend">
+                                </div>
+                                <a href="#" class="text-primary font-bold text-sm hover:text-primary-light flex items-center gap-1">Voir le code <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 2 -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 group border border-gray-100 flex flex-col h-full">
+                        <div class="relative h-56 overflow-hidden">
+                            <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                <span class="bg-dark-bg/80 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg">Mobile</span>
+                                <span class="bg-accent/90 backdrop-blur text-dark-bg text-xs font-bold px-3 py-1.5 rounded-lg">Lauréat</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=600&q=80" alt="Projet" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-text-main">HealthScan Africa</h3>
+                            <p class="text-text-muted text-sm leading-relaxed mb-6 flex-grow">Application Flutter intégrant un modèle d'IA léger pour le premier diagnostic dermatologique via smartphone, fonctionnant hors-ligne.</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-cyan-50 text-cyan-600 text-xs font-bold px-2 py-1 rounded-md">Flutter</span>
+                                <span class="bg-orange-50 text-orange-600 text-xs font-bold px-2 py-1 rounded-md">TensorFlow Lite</span>
+                                <span class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-md">Python</span>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 mt-auto">
+                                <div class="flex items-center -space-x-2">
+                                    <div class="w-8 h-8 rounded-full border-2 border-white bg-pink-100 text-pink-600 flex items-center justify-center text-xs font-bold">SM</div>
+                                    <div class="w-8 h-8 rounded-full border-2 border-white bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">AK</div>
+                                </div>
+                                <a href="#" class="text-primary font-bold text-sm hover:text-primary-light flex items-center gap-1">Démo live <i class="fa-solid fa-play"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 3 -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 group border border-gray-100 flex flex-col h-full">
+                        <div class="relative h-56 overflow-hidden">
+                            <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                <span class="bg-dark-bg/80 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg">Design System</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80" alt="Projet" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-text-main">AfrUI Kit Open Source</h3>
+                            <p class="text-text-muted text-sm leading-relaxed mb-6 flex-grow">Bibliothèque complète Figma comprenant plus de 200 composants adaptés aux usages mobiles africains (boutons larges, contrastes élevés).</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-pink-50 text-pink-600 text-xs font-bold px-2 py-1 rounded-md">Figma</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs font-bold px-2 py-1 rounded-md">Design Tokens</span>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 mt-auto">
+                                <div class="flex items-center -space-x-2">
+                                    <div class="w-8 h-8 rounded-full border-2 border-white bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">FL</div>
+                                </div>
+                                <a href="#" class="text-primary font-bold text-sm hover:text-primary-light flex items-center gap-1">Figma Community <i class="fa-brands fa-figma"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="mt-16 text-center">
+                    <button class="bg-surface-alt hover:bg-gray-200 text-text-main font-bold px-8 py-3 rounded-xl transition-colors border border-gray-200">Charger plus de projets</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-bg pt-20 relative overflow-hidden">
+        <div class="container mx-auto px-6 max-w-7xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
+                <!-- Brand -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <a href="index.html" class="flex items-center gap-3 text-2xl font-extrabold text-white tracking-tight">
+                        <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-12">
+                    </a>
+                    <p class="text-white/60 text-sm leading-relaxed max-w-sm">L'écosystème numérique qui transforme la jeunesse africaine en force technologique.</p>
+                    <div class="mt-2">
+                        <div class="text-xs font-bold text-white/80 uppercase tracking-widest mb-4">Rejoignez le réseau</div>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0077b5] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#1877F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#24292e] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-github"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#5865F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div class="lg:col-span-2 lg:col-start-6">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Plateforme</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="concept.html" class="hover:text-white transition-colors">Comment ça marche</a></li>
+                        <li><a href="guildes.html" class="hover:text-white transition-colors">Les Guildes</a></li>
+                        <li><a href="projets.html" class="hover:text-white transition-colors">Projets réalisés</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Talent Hub (Login)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-2">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Ressources</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Calendrier (Events)</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog & Actus</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Wiki / Cours</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mentors</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-3">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Entreprises</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Proposer une mission</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Recruter un talent</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Devenir sponsor</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Espace B2B</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 pb-12 flex flex-col items-center w-full relative">
+                <!-- Ambient Glowing Aura -->
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-40 bg-gradient-to-t from-primary/25 to-transparent rounded-full blur-[80px] pointer-events-none z-0"></div>
+                
+                <div class="w-full text-center text-sm text-white/40 font-medium relative z-20 mb-6">
+                    <span>© 2026 Campus Skill Challenge. Tous droits réservés.</span>
+                </div>
+                <!-- Huge tech-elite designed text -->
+                <h1 class="font-montserrat text-[14vw] font-black leading-[0.75] tracking-[0.1em] text-center m-0 select-none text-transparent bg-clip-text bg-gradient-to-b from-white/15 via-white/5 to-transparent transform translate-y-6 relative z-10 hover:from-accent/30 hover:to-transparent transition-all duration-700 cursor-default" style="-webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-shadow: 0 0 60px rgba(28, 82, 155, 0.25);">CSC LABS</h1>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Navbar Scroll Effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

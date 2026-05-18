@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CSC Labs | Le Concept</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#006ef2',
+                        'primary-light': '#4c70b6',
+                        'primary-dark': '#0150d9',
+                        accent: '#006ef2',
+                        'dark-bg': '#080b1a',
+                        surface: '#FFFFFF',
+                        'surface-alt': '#f2f4f5',
+                        'bg-body': '#f2f4f5',
+                        text: {
+                            main: '#011031',
+                            muted: '#4c4f5f'
+                        }
+                    },
+                    boxShadow: {
+                        'card': '0 10px 30px -5px rgba(15, 23, 42, 0.05)',
+                        'card-hover': '0 20px 40px -5px rgba(15, 23, 42, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f4f5; color: #011031; overflow-x: hidden; }
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; background: transparent; border-bottom: 1px solid transparent; padding: 24px 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        header.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(28, 82, 155, 0.08); padding: 16px 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: color 0.3s ease; }
+        header.scrolled .logo { color: #011031; }
+        .logo .logo-scrolled { display: none; }
+        .logo .logo-default { display: block; }
+        header.scrolled .logo .logo-scrolled { display: block; }
+        header.scrolled .logo .logo-default { display: none; }
+        .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 600; font-size: 0.95rem; transition: 0.3s ease; position: relative; }
+        header.scrolled .nav-links a { color: #4c4f5f; }
+        .nav-links a:hover, .nav-links .active { color: #006ef2; }
+        header.scrolled .nav-links a:hover, header.scrolled .nav-links .active { color: #006ef2; }
+        .btn-ghost { background: rgba(255, 255, 255, 0.15); color: #FFFFFF !important; backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; font-weight: 700; text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; }
+        header.scrolled .btn-ghost { background: rgba(0, 110, 242, 0.08); color: #006ef2 !important; border-color: transparent; }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.25); }
+        header.scrolled .btn-ghost:hover { background: rgba(0, 110, 242, 0.15); }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        
+        /* Sticky Magic for Processus Section */
+        .sticky-container { position: sticky; top: calc(50vh - 250px); align-self: start; height: 500px; border-radius: 1.5rem; overflow: hidden; }
+        .step-image { opacity: 0; transform: scale(1.05) translateY(20px); transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); z-index: 1; }
+        .step-image.active { opacity: 1; transform: scale(1) translateY(0); z-index: 10; }
+        .step-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.23, 1, 0.32, 1); transform: scale(1.05); }
+        .step-image.active img { transform: scale(1); }
+        
+        /* Mobile: default fully active style for steps */
+        .step-number { background-color: #006ef2; color: #FFFFFF; transition: all 0.4s ease; }
+        .step-text { opacity: 1; transition: all 0.4s ease; }
+        
+        /* Desktop: storytelling active state styles */
+        @media (min-width: 1024px) {
+            .step-text { opacity: 0.3; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1), transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+            .step-text.active { opacity: 1; transform: translateX(15px); }
+            .step-number { background-color: rgba(0, 110, 242, 0.08); color: #006ef2; }
+            .step-text.active .step-number { background-color: #006ef2; color: #FFFFFF; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="mainHeader">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-10 logo-default">
+                <img src="logoCSCLabs.png" alt="CSC Labs" class="h-10 logo-scrolled">
+            </a>
+            <ul class="nav-links">
+                <li><a href="concept.html" class="active">Le Concept</a></li>
+                <li><a href="guildes.html">Guildes</a></li>
+                <li><a href="projets.html">Projets</a></li>
+                <li><a href="evenements.html">Événements</a></li>
+                <li><a href="entreprises.html">Entreprises</a></li>
+                <li><a href="login.html" class="btn btn-ghost" style="padding: 10px 24px;">Connexion</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO CONCEPT -->
+        <section class="bg-dark-bg text-white pt-40 pb-24 md:pt-48 md:pb-32 relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 right-0 w-2/3 md:w-3/4 h-full bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center opacity-40 mask-image-to-l pointer-events-none" style="mask-image: linear-gradient(to left, black, transparent); -webkit-mask-image: linear-gradient(to left, black, transparent);"></div>
+            
+            <div class="container mx-auto px-6 max-w-7xl relative z-10">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight">De la théorie à la pratique <br><span class="text-accent">intensive.</span></h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">Le système éducatif classique forme de bons théoriciens. CSC Labs prend le relais pour en faire d'excellents praticiens. Nous ne donnons pas de cours, nous donnons des projets.</p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#processus" class="bg-primary hover:bg-primary-light text-white font-bold px-8 py-4 rounded-xl transition-all shadow-md">Découvrir le processus <i class="fa-solid fa-arrow-down ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROBLEME VS SOLUTION -->
+        <section class="py-24 bg-bg-body">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-16 max-w-2xl mx-auto">
+                    <h2 class="text-3xl font-black text-text-main mb-4">Pourquoi ce modèle ?</h2>
+                    <p class="text-text-muted text-lg">Parce que le marché du travail n'attend pas.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Constat -->
+                    <div class="bg-red-50 p-10 rounded-3xl border border-red-100 shadow-sm">
+                        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center text-xl mb-6"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h3 class="text-xl font-bold mb-4">Le Constat</h3>
+                        <p class="text-text-muted leading-relaxed">Les jeunes diplômés maîtrisent les concepts théoriques mais peinent à les appliquer dans un environnement professionnel agile. Ils manquent d'expérience de collaboration (Dev + Design + Product) et de confrontation aux contraintes réelles.</p>
+                    </div>
+
+                    <!-- Solution -->
+                    <div class="bg-primary text-white p-10 rounded-3xl shadow-card">
+                        <div class="w-12 h-12 bg-white/20 text-white rounded-xl flex items-center justify-center text-xl mb-6"><i class="fa-solid fa-lightbulb"></i></div>
+                        <h3 class="text-xl font-bold mb-4">La Solution CSC</h3>
+                        <p class="text-white/80 leading-relaxed">Un écosystème fermé simulant une startup tech. On réunit des développeurs, des designers et des data scientists pour créer de vraies applications. La seule façon d'apprendre à construire des produits, c'est d'en construire.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCROLL STORYTELLING : PROCESSUS D'IMMERSION (Clean Typo version) -->
+        <section id="processus" class="bg-surface py-24 relative">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-primary font-bold text-sm uppercase tracking-widest mb-4 block">Processus d'Immersion</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-text-main mb-4">Comment ça fonctionne ?</h2>
+                    <p class="text-text-muted text-lg">Une pédagogie chirurgicale conçue pour simuler les contraintes de production en entreprise.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-16 relative">
+                    <!-- Left Column: Sticky Images -->
+                    <div class="hidden lg:block relative h-[500px] sticky-container">
+                        <!-- Image 1 -->
+                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-1">
+                            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80" alt="Rejoindre Guilde" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
+                                <h3 class="text-text-main font-bold text-xl">L'Intégration</h3>
+                            </div>
+                        </div>
+                        <!-- Image 2 -->
+                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-2">
+                            <img src="https://images.unsplash.com/photo-1531498860502-2c67f99cb5ce?auto=format&fit=crop&w=800&q=80" alt="Build Weeks" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
+                                <h3 class="text-text-main font-bold text-xl">Le Feu de l'Action</h3>
+                            </div>
+                        </div>
+                        <!-- Image 3 -->
+                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-3">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Portfolio" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
+                                <h3 class="text-text-main font-bold text-xl">La Preuve par le Produit</h3>
+                            </div>
+                        </div>
+                        <!-- Image 4 -->
+                        <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-card border border-gray-100 step-image" id="img-step-4">
+                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Placement" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-6 border-t border-gray-100">
+                                <h3 class="text-text-main font-bold text-xl">L'Envol</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Scrolling Text content -->
+                    <div class="space-y-[30vh] lg:space-y-[40vh] pb-[20vh] relative z-10" id="steps-container">
+                        <!-- Step 1 -->
+                        <div class="step-text active" data-step="1">
+                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">1</div>
+                            <h3 class="text-2xl font-bold mb-4 text-text-main">Rejoindre une Guilde</h3>
+                            <p class="text-text-muted leading-relaxed mb-4">Intégrez immédiatement votre pôle de spécialisation : Ingénierie Logicielle, Design UI/UX ou Data & IA. Vous êtes entouré de pairs et encadré par des mentors.</p>
+                            <ul class="space-y-3 text-sm font-semibold text-text-main">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Évaluation initiale de niveau</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Attribution d'une stack technique</li>
+                            </ul>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="step-text" data-step="2">
+                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">2</div>
+                            <h3 class="text-2xl font-bold mb-4 text-text-main">Les Build Weeks</h3>
+                            <p class="text-text-muted leading-relaxed mb-4">Des sessions intensives où vous affrontez des briefs fournis par de vraies entreprises. Livrez un prototype fonctionnel en équipe pluridisciplinaire (un Dev, un Designer, un PM).</p>
+                            <ul class="space-y-3 text-sm font-semibold text-text-main">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Méthodologie Scrum / Agile</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i> Pression des livrables réels</li>
+                            </ul>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="step-text" data-step="3">
+                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">3</div>
+                            <h3 class="text-2xl font-bold mb-4 text-text-main">Validation du Portfolio</h3>
+                            <p class="text-text-muted leading-relaxed mb-4">Chaque ligne de code poussée sur GitHub, chaque maquette validée alimente votre portfolio public sur la plateforme. C'est votre nouveau CV incontestable pour les recruteurs.</p>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="step-text" data-step="4">
+                            <div class="step-number w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl mb-4">4</div>
+                            <h3 class="text-2xl font-bold mb-4 text-text-main">Placement B2B</h3>
+                            <p class="text-text-muted leading-relaxed mb-4">Les entreprises partenaires ont accès au vivier. Elles vous observent et vous recrutent directement en stage, CDI ou freelance sur la base de vos réalisations vérifiables.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section class="container mx-auto px-6 max-w-7xl py-20 relative z-10">
+            <div class="bg-gradient-to-br from-primary to-primary-dark rounded-[2rem] p-12 md:p-20 text-center shadow-2xl text-white">
+                <h2 class="text-3xl md:text-5xl font-black mb-6">Prêt à coder la différence ?</h2>
+                <p class="text-white/90 text-lg mb-10 leading-relaxed max-w-2xl mx-auto">Passez de l'étudiant théorique au "Builder" professionnel en rejoignant la prochaine cohorte.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="login.html" class="bg-white hover:bg-gray-100 text-primary-dark font-bold text-lg px-8 py-4 rounded-2xl shadow-lg transition-all inline-flex items-center justify-center transform hover:-translate-y-1">Je crée mon profil</a>
+                    <a href="guildes.html" class="bg-white/10 hover:bg-white/20 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-lg transition-all border border-white/20 inline-flex items-center justify-center transform hover:-translate-y-1">Voir les spécialisations</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-bg pt-20 relative overflow-hidden border-t border-white/10">
+        <div class="container mx-auto px-6 max-w-7xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
+                <!-- Brand -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <a href="index.html" class="flex items-center gap-3 text-2xl font-extrabold text-white tracking-tight">
+                        <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-12">
+                    </a>
+                    <p class="text-white/60 text-sm leading-relaxed max-w-sm">L'écosystème numérique qui transforme la jeunesse africaine en force technologique.</p>
+                    <div class="mt-2">
+                        <div class="text-xs font-bold text-white/80 uppercase tracking-widest mb-4">Rejoignez le réseau</div>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0077b5] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#1877F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#24292e] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-github"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#5865F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div class="lg:col-span-2 lg:col-start-6">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Plateforme</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="concept.html" class="hover:text-white transition-colors">Comment ça marche</a></li>
+                        <li><a href="guildes.html" class="hover:text-white transition-colors">Les Guildes</a></li>
+                        <li><a href="projets.html" class="hover:text-white transition-colors">Projets réalisés</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Talent Hub (Login)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-2">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Ressources</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Calendrier (Events)</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog & Actus</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Wiki / Cours</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mentors</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-3">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Entreprises</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Proposer une mission</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Recruter un talent</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Devenir sponsor</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Espace B2B</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 pb-12 flex flex-col items-center w-full relative">
+                <!-- Ambient Glowing Aura -->
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-40 bg-gradient-to-t from-primary/25 to-transparent rounded-full blur-[80px] pointer-events-none z-0"></div>
+                
+                <div class="w-full text-center text-sm text-white/40 font-medium relative z-20 mb-6">
+                    <span>© 2026 Campus Skill Challenge. Tous droits réservés.</span>
+                </div>
+                <!-- Huge tech-elite designed text -->
+                <h1 class="font-montserrat text-[14vw] font-black leading-[0.75] tracking-[0.1em] text-center m-0 select-none text-transparent bg-clip-text bg-gradient-to-b from-white/15 via-white/5 to-transparent transform translate-y-6 relative z-10 hover:from-accent/30 hover:to-transparent transition-all duration-700 cursor-default" style="-webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-shadow: 0 0 60px rgba(28, 82, 155, 0.25);">CSC LABS</h1>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Scroll Storytelling Logic (Sticky images fading based on text scroll)
+        if(window.innerWidth > 1024) { // Only on desktop
+            const stepTexts = gsap.utils.toArray('.step-text');
+            const stepImages = gsap.utils.toArray('.step-image');
+            
+            // Set first image active initially
+            stepImages[0].classList.add('active');
+
+            function activateStep(index) {
+                stepTexts.forEach(t => t.classList.remove('active'));
+                stepImages.forEach(img => img.classList.remove('active'));
+                
+                stepTexts[index].classList.add('active');
+                stepImages[index].classList.add('active');
+            }
+
+            stepTexts.forEach((text, i) => {
+                ScrollTrigger.create({
+                    trigger: text,
+                    start: "top 50%",    // precisely when the top of the text block crosses the middle of the screen
+                    end: "bottom 50%",
+                    onEnter: () => activateStep(i),
+                    onEnterBack: () => activateStep(i)
+                });
+            });
+        }
+
+        // Navbar Scroll Effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

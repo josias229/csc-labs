@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Badge Officiel - Campus Skill Challenge</title>
+
+    <!-- Polices -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --brand-sky: #38bdf8;
+            --brand-blue: #0066FF;
+            --brand-gold: #fbbf24;
+            --bg-dark: #020617;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(0, 102, 255, 0.05) 0%, transparent 50%);
+        }
+
+        /* --- UI STYLES --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .tab-active {
+            background: rgba(56, 189, 248, 0.1) !important;
+            border-color: rgba(56, 189, 248, 0.5) !important;
+            color: white !important;
+        }
+
+        /* --- PREVIEW CONTAINER --- */
+        .preview-box {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 4/5;
+            position: relative;
+            background: #000;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 60px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* L'astuce : On garde les deux modèles dans le DOM mais on n'en montre qu'un avec l'échelle */
+        .model-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 800px;
+            height: 1000px;
+            transform-origin: top left;
+            z-index: 10;
+        }
+
+        /* --- STYLES MODÈLE 1 (ÉLÉGANCE) --- */
+        .m1-bg {
+            background: radial-gradient(circle at center, #184b8c 0%, #0a1e42 100%);
+        }
+
+        .m1-grid {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .m1-logo-box {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- STYLES MODÈLE 2 (CYBER) --- */
+        .m2-bg {
+            background: #05070A;
+        }
+
+        .m2-tech-grid {
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(0, 102, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 0, 0.1) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        .m2-clip {
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translate(-50%, -150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+
+    <div id="toast"
+        class="toast z-[100] glass-card px-6 py-4 rounded-2xl flex items-center gap-3 text-sm font-bold border-l-4 border-sky-400">
+        <i class="fas fa-info-circle text-sky-400 text-lg"></i>
+        <span id="toastMsg">Message</span>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-10">
+
+        <!-- CONTROLS (GAUCHE) -->
+        <div class="lg:col-span-5 space-y-8 order-2 lg:order-1">
+            <header>
+                <div
+                    class="inline-block px-4 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-black tracking-widest mb-4 uppercase">
+                    Badge Officiel v2.0
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black mb-4">Prêt pour le <br><span class="text-sky-400">Challenge
+                        ?</span></h1>
+                <p class="text-slate-400 text-lg">Configurez vos infos et téléchargez votre badge en haute résolution.
+                </p>
+            </header>
+
+            <!-- Modèles -->
+            <div class="flex gap-4 p-1 bg-white/5 rounded-2xl border border-white/10">
+                <button onclick="setModel(1)" id="btn-m1"
+                    class="flex-1 py-3 text-sm font-black rounded-xl border border-transparent transition-all tab-active">
+                    ÉLÉGANCE
+                </button>
+                <button onclick="setModel(2)" id="btn-m2"
+                    class="flex-1 py-3 text-sm font-black rounded-xl border border-transparent transition-all text-slate-500">
+                    CYBER
+                </button>
+            </div>
+
+            <!-- Formulaire -->
+            <div class="glass-card p-8 rounded-[2rem] space-y-6">
+                <div>
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Votre
+                        Identité</label>
+                    <input type="text" id="nameInput" placeholder="Ex: JEAN-MARC SIKA"
+                        class="w-full bg-slate-900 border border-slate-800 rounded-xl px-5 py-4 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-all text-white font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Votre
+                        Parcours</label>
+                    <input type="text" id="filiereInput" placeholder="Ex: Sécurité Informatique"
+                        class="w-full bg-slate-900 border border-slate-800 rounded-xl px-5 py-4 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-all text-white font-bold">
+                </div>
+                <div>
+                    <label
+                        class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Portrait</label>
+                    <label
+                        class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-800 rounded-xl hover:border-sky-500/50 hover:bg-sky-500/5 cursor-pointer transition-all group">
+                        <i class="fas fa-camera text-slate-600 group-hover:text-sky-400 mb-2"></i>
+                        <span class="text-xs font-bold text-slate-500 group-hover:text-sky-300">Choisir une photo</span>
+                        <input type="file" id="imageInput" class="hidden" accept="image/*">
+                    </label>
+                </div>
+            </div>
+
+            <button id="dlBtn" onclick="download()"
+                class="w-full bg-white text-slate-950 py-5 rounded-2xl font-black text-lg hover:bg-sky-400 hover:text-white transition-all transform hover:-translate-y-1 shadow-2xl flex items-center justify-center gap-3">
+                <i class="fas fa-download"></i> TÉLÉCHARGER LE BADGE
+            </button>
+        </div>
+
+        <!-- PREVIEW (DROITE) -->
+        <div class="lg:col-span-7 flex flex-col items-center justify-center order-1 lg:order-2">
+            <div id="preview-container" class="preview-box">
+
+                <!-- ================= MODÈLE 1 (ÉLÉGANCE) ================= -->
+                <div id="m1" class="model-canvas m1-bg font-['Poppins']">
+                    <div class="absolute inset-0 m1-grid pointer-events-none"></div>
+
+                    <!-- Header -->
+                    <div class="absolute top-10 left-10 text-white z-20 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="bg-white text-[#184b8c] w-8 h-8 rounded-full flex items-center justify-center shadow-lg">
+                                <i class="fab fa-linkedin-in"></i></div>
+                            <div
+                                class="bg-white text-[#184b8c] w-8 h-8 rounded-full flex items-center justify-center shadow-lg">
+                                <i class="fab fa-facebook-f"></i></div>
+                            <span class="font-bold text-lg tracking-tight">@campus_skill_challenge</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-whatsapp text-3xl text-green-400"></i>
+                            <span class="font-bold text-lg">(+229) 0190530822 / 0162328725</span>
+                        </div>
+                    </div>
+
+                    <!-- Logo -->
+                    <div
+                        class="absolute top-0 right-10 bg-white w-48 pt-10 pb-6 rounded-b-3xl flex flex-col items-center z-20 m1-logo-box">
+                        <i class="fas fa-graduation-cap text-5xl text-[#184b8c] mb-3"></i>
+                        <h2 class="text-[#0a1e42] text-2xl font-black leading-none text-center">
+                            CAMPUS<br>SKILL<br>CHALLENGE</h2>
+                        <div class="w-12 h-1.5 bg-sky-400 mt-4 rounded-full"></div>
+                    </div>
+
+                    <!-- Photo Frame -->
+                    <div class="absolute top-36 left-1/2 -translate-x-1/2 w-[400px] h-[400px] z-10">
+                        <div
+                            class="w-full h-full bg-slate-900 rounded-[2.5rem] overflow-hidden shadow-2xl relative border-4 border-white/10">
+                            <img class="user-img w-full h-full object-cover"
+                                src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <div
+                            class="absolute -top-3 -left-3 w-12 h-12 border-t-8 border-l-8 border-sky-400 rounded-tl-2xl">
+                        </div>
+                        <div
+                            class="absolute -bottom-3 -right-3 w-12 h-12 border-b-8 border-r-8 border-sky-400 rounded-br-2xl">
+                        </div>
+                    </div>
+
+                    <!-- Texte -->
+                    <div class="absolute top-[560px] w-full px-16 text-center z-20">
+                        <div
+                            class="bg-black/30 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 shadow-2xl">
+                            <p class="text-2xl text-white font-semibold leading-relaxed">
+                                Je suis <span class="user-name text-sky-400 font-black">[Nom et Prénoms]</span>,
+                                étudiant(e) en <span class="user-filiere text-amber-400 font-black">[Filière]</span>,
+                                <br><br>
+                                je participe au <span class="font-black uppercase tracking-widest">Campus Skill
+                                    Challenge</span>,
+                                <br>
+                                <span class="text-lg text-slate-300">obtenir certifications internationales gratuites
+                                </span>
+                                <span class="text-sky-300 font-bold">(Google, IBM, Cisco)</span>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Certifs -->
+                    <div
+                        class="absolute bottom-10 left-1/2 -translate-x-1/2 w-[700px] bg-white rounded-3xl py-5 px-8 flex flex-col items-center shadow-2xl">
+                        <span class="text-[10px] font-black text-amber-600 tracking-[0.3em] uppercase mb-3">Partenaires
+                            & Certifications</span>
+                        <div class="flex items-center gap-8 flex-wrap justify-center">
+                            <span class="text-blue-700 font-black text-xl">coursera</span>
+                            <span class="text-slate-900 font-black text-2xl">IBM</span>
+                            <span class="text-sky-500 font-black text-lg">CISCO</span>
+                            <span class="text-orange-500 font-black text-lg">aws</span>
+                            <span class="text-slate-700 font-bold">Google</span>
+                            <span class="text-slate-800 font-bold">Microsoft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= MODÈLE 2 (CYBER) ================= -->
+                <div id="m2" class="model-canvas m2-bg font-['Space_Grotesk']"
+                    style="opacity: 0; pointer-events: none;">
+                    <div class="absolute inset-0 m2-tech-grid opacity-50"></div>
+
+                    <div class="absolute top-12 left-0 right-0 text-center z-20 font-['Syncopate']">
+                        <h2 class="text-xs tracking-[0.5em] text-white opacity-60 mb-3">CAMPUS SKILL CHALLENGE</h2>
+                        <div class="inline-block bg-[#0066FF] px-8 py-2 text-xs font-bold tracking-widest">3
+                            CERTIFICATIONS / 30 JOURS</div>
+                    </div>
+
+                    <!-- Side label -->
+                    <div
+                        class="absolute left-6 top-1/2 -translate-y-1/2 -rotate-90 font-['Syncopate'] font-bold text-[#0066FF] tracking-[0.5em] text-sm whitespace-nowrap">
+                        JE PARTICIPE <i class="fas fa-chevron-right ml-4"></i>
+                    </div>
+
+                    <!-- Image Frame -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[580px] z-10 m2-clip bg-slate-900 p-4 border border-white/10 shadow-2xl">
+                        <div class="w-full h-full m2-clip overflow-hidden relative bg-slate-800">
+                            <img class="user-img w-full h-full object-cover"
+                                src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1000&auto=format&fit=crop">
+
+                            <!-- Overlay sombre plus prononcé pour la lisibilité -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/100 via-black/40 to-transparent z-20">
+                            </div>
+
+                            <!-- Name overlay : Remonté à bottom-16 au lieu de bottom-10 -->
+                            <div class="absolute bottom-16 left-10 right-10 z-30 font-['Syncopate']">
+                                <div
+                                    class="user-name text-3xl font-black text-[#FF6B00] mb-1 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] uppercase truncate">
+                                    VOTRE NOM</div>
+                                <div class="user-filiere text-lg font-bold text-sky-400 drop-shadow-lg truncate">Votre
+                                    Filière</div>
+                                <div class="text-[10px] tracking-[0.4em] text-white/70 mt-3 uppercase font-bold">
+                                    Challenge Compétences 2024</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="absolute bottom-12 left-16 right-16 flex justify-between items-end z-20">
+                        <div class="space-y-2">
+                            <div
+                                class="bg-orange-500/10 border border-orange-500/30 text-orange-500 px-4 py-1 text-[10px] font-bold">
+                                CERTIFICATIONS</div>
+                            <div class="text-xs font-bold text-white/60">Google, IBM, Cisco</div>
+                        </div>
+                        <div class="text-right space-y-2">
+                            <div class="bg-white/5 border border-white/10 text-white px-4 py-1 text-[10px] font-bold">
+                                FORGEZ VOS SKILLS</div>
+                            <div class="text-xs font-bold text-white/60">AU-DELÀ DU DIPLÔME</div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-white/5 backdrop-blur-xl border-b border-l border-white/10 m2-clip flex flex-col items-center justify-center">
+                        <i class="fas fa-graduation-cap text-sky-400 text-3xl mb-1"></i>
+                        <span class="text-[9px] font-black text-center font-['Syncopate']">CAMPUS<br>SKILL</span>
+                    </div>
+                </div>
+
+            </div>
+            <p class="mt-6 text-slate-500 text-xs font-bold tracking-widest uppercase opacity-50">Capture Haute
+                Résolution (800x1000)</p>
+        </div>
+    </div>
+
+    <script>
+        let currentModel = 1;
+
+        // Éléments
+        const m1 = document.getElementById('m1');
+        const m2 = document.getElementById('m2');
+        const previewContainer = document.getElementById('preview-container');
+
+        const nameInput = document.getElementById('nameInput');
+        const filiereInput = document.getElementById('filiereInput');
+        const imageInput = document.getElementById('imageInput');
+
+        // Sélecteurs multiples pour les deux modèles
+        const nameDisplays = document.querySelectorAll('.user-name');
+        const filiereDisplays = document.querySelectorAll('.user-filiere');
+        const userImages = document.querySelectorAll('.user-img');
+
+        function setModel(id) {
+            currentModel = id;
+
+            // UI Buttons
+            document.getElementById('btn-m1').className = (id === 1) ? "flex-1 py-3 text-sm font-black rounded-xl border border-transparent transition-all tab-active" : "flex-1 py-3 text-sm font-black rounded-xl border border-transparent transition-all text-slate-500";
+            document.getElementById('btn-m2').className = (id === 2) ? "flex-1 py-3 text-sm font-black rounded-xl border border-transparent transition-all tab-active" : "flex-1 py-3 text-sm font-black rounded-xl border border-transparent transition-all text-slate-500";
+
+            // Visibility (On utilise l'opacité pour que html2canvas puisse toujours "voir" l'élément si besoin)
+            m1.style.opacity = (id === 1) ? "1" : "0";
+            m1.style.pointerEvents = (id === 1) ? "auto" : "none";
+            m2.style.opacity = (id === 2) ? "1" : "0";
+            m2.style.pointerEvents = (id === 2) ? "auto" : "none";
+
+            updateScale();
+            showToast(`Modèle ${id === 1 ? 'Élégance' : 'Cyber'} sélectionné`);
+        }
+
+        // --- UPDATES ---
+        nameInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            nameDisplays[0].textContent = val || "[Nom et Prénoms]";
+            nameDisplays[1].textContent = val || "VOTRE NOM";
+        });
+
+        filiereInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            filiereDisplays[0].textContent = val || "[Filière]";
+            filiereDisplays[1].textContent = val || "Votre Filière";
+        });
+
+        imageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    userImages.forEach(img => img.src = e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function updateScale() {
+            const containerWidth = previewContainer.clientWidth;
+            const scale = containerWidth / 800;
+            m1.style.transform = `scale(${scale})`;
+            m2.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', updateScale);
+        updateScale();
+
+        // --- DOWNLOAD ---
+        async function download() {
+            const btn = document.getElementById('dlBtn');
+            if (!nameInput.value.trim()) {
+                showToast("Veuillez entrer votre nom d'abord", "error");
+                return;
+            }
+
+            const target = (currentModel === 1) ? m1 : m2;
+            const originalBtn = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> GÉNÉRATION...';
+            btn.disabled = true;
+
+            try {
+                // Forcer l'opacité à 1 le temps de la capture
+                const originalOpacity = target.style.opacity;
+                target.style.opacity = "1";
+                target.style.transform = "scale(1)";
+
+                await new Promise(r => setTimeout(r, 300));
+
+                const canvas = await html2canvas(target, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: currentModel === 1 ? "#0a1e42" : "#05070A",
+                    logging: false
+                });
+
+                const link = document.createElement('a');
+                link.download = `Badge_CSC_${currentModel === 1 ? 'Elegance' : 'Cyber'}_${nameInput.value.trim()}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+
+                showToast("Badge téléchargé !", "success");
+            } catch (err) {
+                console.error(err);
+                showToast("Erreur de capture", "error");
+            } finally {
+                target.style.opacity = (currentModel === 1 && target === m1) || (currentModel === 2 && target === m2) ? "1" : "0";
+                updateScale();
+                btn.innerHTML = originalBtn;
+                btn.disabled = false;
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // Init
+        setModel(1);
+    </script>
+</body>
+
+</html>

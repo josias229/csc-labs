@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CSC Labs | Les Guildes - Choisissez votre spécialisation</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#006ef2',
+                        'primary-light': '#4c70b6',
+                        'primary-dark': '#0150d9',
+                        accent: '#006ef2',
+                        'dark-bg': '#080b1a',
+                        surface: '#FFFFFF',
+                        'surface-alt': '#f2f4f5',
+                        'bg-body': '#f2f4f5',
+                        text: {
+                            main: '#011031',
+                            muted: '#4c4f5f'
+                        }
+                    },
+                    boxShadow: {
+                        'card': '0 10px 30px -5px rgba(15, 23, 42, 0.05)',
+                        'card-hover': '0 20px 40px -5px rgba(15, 23, 42, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f4f5; color: #011031; }
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; background: transparent; border-bottom: 1px solid transparent; padding: 24px 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        header.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(28, 82, 155, 0.08); padding: 16px 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: color 0.3s ease; }
+        header.scrolled .logo { color: #011031; }
+        .logo .logo-scrolled { display: none; }
+        .logo .logo-default { display: block; }
+        header.scrolled .logo .logo-scrolled { display: block; }
+        header.scrolled .logo .logo-default { display: none; }
+        .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: rgba(255, 255, 255, 0.95); font-weight: 600; font-size: 0.95rem; transition: 0.3s ease; position: relative; }
+        header.scrolled .nav-links a { color: #4c4f5f; }
+        .nav-links a:hover, .nav-links .active { color: #006ef2; }
+        header.scrolled .nav-links a:hover, header.scrolled .nav-links .active { color: #006ef2; }
+        .btn-ghost { background: rgba(255, 255, 255, 0.15); color: #FFFFFF !important; backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; font-weight: 700; text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; }
+        header.scrolled .btn-ghost { background: rgba(0, 110, 242, 0.08); color: #006ef2 !important; border-color: transparent; }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.25); }
+        header.scrolled .btn-ghost:hover { background: rgba(0, 110, 242, 0.15); }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="mainHeader">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-10 logo-default">
+                <img src="logoCSCLabs.png" alt="CSC Labs" class="h-10 logo-scrolled">
+            </a>
+            <ul class="nav-links">
+                <li><a href="concept.html">Le Concept</a></li>
+                <li><a href="guildes.html" class="active">Guildes</a></li>
+                <li><a href="projets.html">Projets</a></li>
+                <li><a href="evenements.html">Événements</a></li>
+                <li><a href="entreprises.html">Entreprises</a></li>
+                <li><a href="login.html" class="btn btn-ghost" style="padding: 10px 24px;">Connexion</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="bg-dark-bg text-white pt-40 pb-24 md:pt-48 md:pb-32 relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 right-0 w-2/3 md:w-3/4 h-full bg-[url('https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center opacity-40 mask-image-to-l pointer-events-none" style="mask-image: linear-gradient(to left, black, transparent); -webkit-mask-image: linear-gradient(to left, black, transparent);"></div>
+            
+            <div class="container mx-auto px-6 max-w-7xl relative z-10">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight">Rejoignez votre <br><span class="text-accent">clan d'élite.</span></h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">Travaillez aux côtés de passionnés partageant les mêmes objectifs techniques. Formez-vous aux standards exigés par les startups internationales.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LES 4 GUILDES DETAILLES -->
+        <section class="py-24 bg-white">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="space-y-24">
+                    
+                    <!-- Guilde Dev Logiciel -->
+                    <div class="grid lg:grid-cols-2 gap-12 items-center gsap-scroll-element">
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl bg-blue-50 text-primary flex items-center justify-center text-3xl mb-6">
+                                <i class="fa-solid fa-terminal"></i>
+                            </div>
+                            <h2 class="text-3xl font-black mb-4">Guilde Développement Logiciel</h2>
+                            <p class="text-text-muted text-lg mb-6 leading-relaxed">Concevez des architectures logicielles extensibles, robustes et optimisées. Du développement web moderne au mobile en passant par le Web3, apprenez à écrire du code propre et documenté.</p>
+                            
+                            <div class="mb-8">
+                                <h4 class="font-bold text-sm uppercase tracking-widest text-primary mb-3">Stack Technique ciblée</h4>
+                                <div class="flex flex-wrap gap-2 text-xs font-semibold text-text-main">
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">React / Next.js</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Node.js (NestJS)</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">TypeScript</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Flutter</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">PostgreSQL / Prisma</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Docker</span>
+                                </div>
+                            </div>
+
+                            <!-- Lead Mentor Card -->
+                            <div class="bg-surface-alt p-4 rounded-2xl flex items-center gap-4 border border-gray-100">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80" alt="Kofi Mensah" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <div class="text-sm font-bold text-text-main">Kofi Mensah</div>
+                                    <div class="text-xs text-text-muted">Lead Architect (ex-Google, 12 ans d'exp)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-surface-alt rounded-3xl p-8 border border-gray-200 lg:p-12">
+                            <h3 class="text-xl font-bold mb-4">Projet type de la guilde</h3>
+                            <div class="h-48 rounded-xl bg-gray-200 mb-6 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1607513816405-c8e9b6a6c429?auto=format&fit=crop&w=600&q=80" alt="App UI" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">PaySwift</h4>
+                            <p class="text-text-muted text-sm mb-6 leading-relaxed">Agrégateur de paiement mobile multi-opérateurs destiné aux commerces africains informels.</p>
+                            <a href="login.html" class="bg-primary hover:bg-primary-light text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md inline-block">Rejoindre la Guilde Dev</a>
+                        </div>
+                    </div>
+
+                    <!-- Guilde Design UI/UX -->
+                    <div class="grid lg:grid-cols-2 gap-12 items-center gsap-scroll-element">
+                        <div class="lg:order-2">
+                            <div class="w-16 h-16 rounded-2xl bg-pink-50 text-pink-500 flex items-center justify-center text-3xl mb-6">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </div>
+                            <h2 class="text-3xl font-black mb-4">Guilde Design UI/UX</h2>
+                            <p class="text-text-muted text-lg mb-6 leading-relaxed">Créez des produits agréables à utiliser. Maîtrisez le cycle complet du design produit : de la recherche utilisateur au prototypage sur Figma, jusqu'au suivi de l'intégration CSS.</p>
+                            
+                            <div class="mb-8">
+                                <h4 class="font-bold text-sm uppercase tracking-widest text-pink-500 mb-3">Stack Technique ciblée</h4>
+                                <div class="flex flex-wrap gap-2 text-xs font-semibold text-text-main">
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Figma (Prototypage & Auto-Layout)</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Design System</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">TailwindCSS</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">User Research & Sprints</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Miro (Wireframing)</span>
+                                </div>
+                            </div>
+
+                            <!-- Lead Mentor Card -->
+                            <div class="bg-surface-alt p-4 rounded-2xl flex items-center gap-4 border border-gray-100">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80" alt="Amina Bello" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <div class="text-sm font-bold text-text-main">Amina Bello</div>
+                                    <div class="text-xs text-text-muted">Senior Product Designer (Lead Design, 8 ans d'exp)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-surface-alt rounded-3xl p-8 border border-gray-200 lg:p-12 lg:order-1">
+                            <h3 class="text-xl font-bold mb-4">Projet type de la guilde</h3>
+                            <div class="h-48 rounded-xl bg-primary/20 mb-6 overflow-hidden flex items-center justify-center p-4">
+                                <div class="w-full h-full border-2 border-white/20 rounded-xl flex flex-col gap-2 p-3 bg-white/5 backdrop-blur">
+                                    <div class="w-1/2 h-6 bg-white/40 rounded"></div>
+                                    <div class="w-full h-20 bg-white/20 rounded flex-1 mt-2"></div>
+                                </div>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">AfrUI Kit</h4>
+                            <p class="text-text-muted text-sm mb-6 leading-relaxed">Composants UI open-source haut de gamme pensés pour la connectivité et l'accessibilité africaines.</p>
+                            <a href="login.html" class="bg-pink-500 hover:bg-pink-400 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md inline-block">Rejoindre la Guilde Design</a>
+                        </div>
+                    </div>
+
+                    <!-- Guilde Data & IA -->
+                    <div class="grid lg:grid-cols-2 gap-12 items-center gsap-scroll-element">
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-3xl mb-6">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </div>
+                            <h2 class="text-3xl font-black mb-4">Guilde Data & IA</h2>
+                            <p class="text-text-muted text-lg mb-6 leading-relaxed">Valorisez les données complexes et intégrez de l'intelligence dans vos projets. Apprenez à concevoir des modèles prédictifs et à tirer parti des APIs d'IA générative modernes.</p>
+                            
+                            <div class="mb-8">
+                                <h4 class="font-bold text-sm uppercase tracking-widest text-purple-600 mb-3">Stack Technique ciblée</h4>
+                                <div class="flex flex-wrap gap-2 text-xs font-semibold text-text-main">
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Python (Pandas / NumPy)</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">TensorFlow / PyTorch</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">OpenAI API / LangChain</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">PostgreSQL (pgvector)</span>
+                                    <span class="bg-gray-100 px-3 py-2 rounded-xl border border-gray-200">Scikit-Learn</span>
+                                </div>
+                            </div>
+
+                            <!-- Lead Mentor Card -->
+                            <div class="bg-surface-alt p-4 rounded-2xl flex items-center gap-4 border border-gray-100">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80" alt="Dr. Ousmane Diop" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <div class="text-sm font-bold text-text-main">Dr. Ousmane Diop</div>
+                                    <div class="text-xs text-text-muted">AI Research Scientist (Aix-Marseille, 10 ans d'exp)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-surface-alt rounded-3xl p-8 border border-gray-200 lg:p-12">
+                            <h3 class="text-xl font-bold mb-4">Projet type de la guilde</h3>
+                            <div class="h-48 rounded-xl bg-gray-200 mb-6 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=600&q=80" alt="AI App" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">AgriVision</h4>
+                            <p class="text-text-muted text-sm mb-6 leading-relaxed">Application mobile utilisant l'IA embarquée pour identifier les maladies des cultures locales en temps réel.</p>
+                            <a href="login.html" class="bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md inline-block">Rejoindre la Guilde Data</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA INSCRIPTION -->
+        <section class="container mx-auto px-6 max-w-7xl py-20 relative z-10">
+            <div class="bg-gradient-to-br from-primary to-primary-dark rounded-[2rem] p-12 md:p-20 text-center shadow-2xl text-white">
+                <h2 class="text-3xl md:text-5xl font-black mb-6">Prêt à propulser votre carrière ?</h2>
+                <p class="text-white/90 text-lg mb-10 leading-relaxed max-w-2xl mx-auto">Rejoignez la guilde qui correspond à vos rêves et développez les compétences qui comptent vraiment.</p>
+                <a href="login.html" class="bg-white hover:bg-gray-100 text-primary-dark font-bold text-lg px-10 py-5 rounded-2xl shadow-lg transition-all inline-block transform hover:-translate-y-1">Créer mon compte de Builder</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-bg pt-20 relative overflow-hidden">
+        <div class="container mx-auto px-6 max-w-7xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
+                <!-- Brand -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <a href="index.html" class="flex items-center gap-3 text-2xl font-extrabold text-white tracking-tight">
+                        <img src="logoCSCLabsWhite.png" alt="CSC Labs" class="h-12">
+                    </a>
+                    <p class="text-white/60 text-sm leading-relaxed max-w-sm">L'écosystème numérique qui transforme la jeunesse africaine en force technologique.</p>
+                    <div class="mt-2">
+                        <div class="text-xs font-bold text-white/80 uppercase tracking-widest mb-4">Rejoignez le réseau</div>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0077b5] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#1877F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#24292e] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-github"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-[#5865F2] flex items-center justify-center text-white transition-all hover:-translate-y-1"><i class="fa-brands fa-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div class="lg:col-span-2 lg:col-start-6">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Plateforme</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="concept.html" class="hover:text-white transition-colors">Comment ça marche</a></li>
+                        <li><a href="guildes.html" class="hover:text-white transition-colors">Les Guildes</a></li>
+                        <li><a href="projets.html" class="hover:text-white transition-colors">Projets réalisés</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Talent Hub (Login)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-2">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Ressources</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Calendrier (Events)</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog & Actus</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Wiki / Cours</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mentors</a></li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-3">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Entreprises</h4>
+                    <ul class="space-y-4 text-white/60 font-medium text-sm">
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Proposer une mission</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Recruter un talent</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Devenir sponsor</a></li>
+                        <li><a href="entreprises.html" class="hover:text-white transition-colors">Espace B2B</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 pb-12 flex flex-col items-center w-full relative">
+                <!-- Ambient Glowing Aura -->
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-40 bg-gradient-to-t from-primary/25 to-transparent rounded-full blur-[80px] pointer-events-none z-0"></div>
+                
+                <div class="w-full text-center text-sm text-white/40 font-medium relative z-20 mb-6">
+                    <span>© 2026 Campus Skill Challenge. Tous droits réservés.</span>
+                </div>
+                <!-- Huge tech-elite designed text -->
+                <h1 class="font-montserrat text-[14vw] font-black leading-[0.75] tracking-[0.1em] text-center m-0 select-none text-transparent bg-clip-text bg-gradient-to-b from-white/15 via-white/5 to-transparent transform translate-y-6 relative z-10 hover:from-accent/30 hover:to-transparent transition-all duration-700 cursor-default" style="-webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-shadow: 0 0 60px rgba(28, 82, 155, 0.25);">CSC LABS</h1>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.gsap-scroll-element').forEach((el, i) => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top bottom-=100", toggleActions: "play none none none" },
+                y: 50, opacity: 0, duration: 0.8, ease: "power3.out"
+            });
+        });
+
+        // Navbar Scroll Effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
